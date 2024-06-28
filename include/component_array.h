@@ -19,7 +19,7 @@ namespace poke {
 	class ComponentArray : public poke::IComponentArray {
 
 	private:
-		std::array<T, POKE_MAX_ENTITIES> arr;
+		std::array<T, POKE_MAX_ENTITIES> arr{};
 		std::unordered_map<poke::entity_t, std::size_t> entityToIndex;
 		std::unordered_map<std::size_t, poke::entity_t> indexToEntity;
 		std::size_t mSize = 0;
@@ -40,17 +40,18 @@ namespace poke {
 		bool erase(const poke::entity_t e) override {
 			if (this->entityToIndex.find(e) != this->entityToIndex.end()) {
 				const std::size_t lastComponentIndex = --this->mSize;
-				const poke::entity_t lastEntity = this->entityToIndex[lastComponentIndex];
-				const std::size_t removedComponentIndex = this->indexToEntity[e];
+				const std::size_t removedComponentIndex = this->entityToIndex[e];
+				const poke::entity_t lastEntity = this->indexToEntity[lastComponentIndex];
 			
-				this->arr[removedComponentIndex] = this->arr[this->entityToIndex[lastEntity]];
+				this->arr[removedComponentIndex] = this->arr[lastComponentIndex];
 			
 				this->entityToIndex[lastEntity] = removedComponentIndex;
 				this->indexToEntity[removedComponentIndex] = lastEntity;
-			
+
 				this->entityToIndex.erase(e);
 				this->indexToEntity.erase(lastComponentIndex);
-				return true;
+
+				return true;				
 			}
 			return false;
 ;		}

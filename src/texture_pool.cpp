@@ -16,7 +16,7 @@ poke::TexturePool::~TexturePool() {
 
 Texture2D poke::TexturePool::load(const char* file_name) {
 	const unsigned long h = poke::hash(file_name);
-	if (this->textureMap.find(h) != this->textureMap.end()) {
+	if (this->textureMap.find(h) == this->textureMap.end()) {
 		this->textureMap.insert({ h, LoadTexture(file_name) });
 	}
 	return this->textureMap[h];

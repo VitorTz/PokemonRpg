@@ -23,6 +23,8 @@
 
 #define POKE_MAX_ENTITIES (4096)
 
+#define POKE_PLAYER_MOVEMENT_SPEED (200.0f)
+
 
 namespace poke {
 

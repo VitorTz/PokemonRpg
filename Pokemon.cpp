@@ -8,7 +8,7 @@ int main() {
 	SetConfigFlags(FLAG_VSYNC_HINT);
 	InitWindow(POKE_SCREEN_WIDTH, POKE_SCREEN_HEIGHT, POKE_WINDOW_TITLE);
 	Image icon = LoadImage(ASSETS_PATH "icon/icon.png");
-	SetWindowIcon(icon);
+	SetWindowIcon(icon);	
 
 	poke::gEcs.init();
 

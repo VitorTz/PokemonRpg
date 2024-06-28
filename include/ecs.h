@@ -27,13 +27,22 @@ namespace poke {
 		void init() {
 			
 			poke::registerType<poke::transform_t>();
+			poke::registerType<poke::rigid_body_t>();
 			poke::registerType<poke::sprite_t>();
+			poke::registerType<poke::obstacle_t>();
+
+			poke::registerType<poke::player_t>();
 
 			this->component.registerComponentArray<poke::transform_t>();
 			this->component.registerComponentArray<poke::sprite_t>();
+			this->component.registerComponentArray<poke::rigid_body_t>();
+			this->component.registerComponentArray<poke::obstacle_t>();
 			
 			this->system.registerSystem<poke::transform_t, poke::TransformSystem>();
+			this->system.registerSystem<poke::rigid_body_t, poke::RigidBodySystem>();			
 			this->system.registerSystem<poke::sprite_t, poke::SpriteSystem>();
+			this->system.registerSystem<poke::obstacle_t, poke::ObstacleSystem>();
+			this->system.registerSystem<poke::player_t, poke::PlayerSystem>();
 
 		}
 
@@ -86,8 +95,23 @@ namespace poke {
 			return this->component.at<T>(e);
 		}
 
-		poke::transform_t getTransform(const poke::entity_t e) {
+		template<typename T>
+		void addToSystem(const poke::entity_t e) {
+			this->system.addToSystem<T>(e);
+		}
+
+		template<typename T>
+		void rmvFromSystem(const poke::entity_t e) {
+			this->system.rmvFromSystem<T>(e);
+		}
+
+		poke::transform_t& getTransform(const poke::entity_t e) {
 			return this->component.at<poke::transform_t>(e);
+		}
+
+		template<typename T>
+		const std::unordered_set<poke::entity_t>* getEntitiesBySystem() {
+			return this->system.getEntitiesBySystem<T>();
 		}
 
 		void clear() {
@@ -132,6 +156,10 @@ namespace poke {
 			}			
 
 		}
+
+		std::size_t numEntitiesAlive() const {
+			return this->entity.size();
+		}		
 
 	};
 

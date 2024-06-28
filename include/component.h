@@ -3,7 +3,6 @@
 #include "texture_pool.h"
 
 
-
 namespace poke {
 
 	inline std::unordered_map<const char*, poke::component_t> gComponentTypeMap{};
@@ -24,13 +23,17 @@ namespace poke {
 
 	typedef struct transform {
 		Vector2 pos = { 0 };
-		Vector2 size = { 0 };
-		Vector2 direction = { 0 };
-		poke::zindex_t zindex = 0;
-		float speed = 0.0f;
+		Vector2 size = { 0 };		
+		poke::zindex_t zindex = 0;		
 		transform() = default;
 		transform(const poke::zindex_t _zindex) : zindex(_zindex) { }
 	} transform_t;
+
+	typedef struct rigid_body {
+		Vector2 direction = { 0 };
+		Vector2 lastMovement = { 0 };
+		float speed = 0.0f;
+	} rigid_body_t;
 
 
 	typedef struct sprite {
@@ -41,8 +44,22 @@ namespace poke {
 			const char* file_name
 		) : texture(poke::gTexturePool.load(file_name)),
 			rect({0.0f, 0.0f, (float) texture.width, (float) texture.height}) {
-			
+
 		}
 	} sprite_t;
+
+	typedef struct obstacle {
+		Rectangle rect;
+		Vector2 hitbox;
+	} obstacle_t;
+
+	typedef struct player {
+		poke::entity_t playerEntity;
+		char direction[2]{ 'x', 'd' };
+		char action{ 'x' };
+	} player_t;
+
+
+	inline poke::player_t gPlayer{};
 
 }
