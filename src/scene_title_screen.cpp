@@ -9,7 +9,10 @@ poke::TitleScreen::TitleScreen() {
 
 
 void poke::TitleScreen::update() {
-	const float dt = GetFrameTime();	
+	const float dt = GetFrameTime();
+	if (IsKeyPressed(KEY_SPACE)) {
+		poke::gSceneManager.changeScene(poke::LevelScreenId);
+	}
 }
 
 

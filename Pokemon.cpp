@@ -19,7 +19,7 @@ int main() {
 	}
 
 
-	poke::gTexturePool.clear();
+	poke::gTexturePool.clear();	
 	UnloadImage(icon);
 	CloseWindow();
 

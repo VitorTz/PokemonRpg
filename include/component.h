@@ -54,7 +54,7 @@ namespace poke {
 	} obstacle_t;
 
 	typedef struct player {
-		poke::entity_t playerEntity;
+		poke::entity_t playerEntity;		
 		char direction[2]{ 'x', 'd' };
 		char action{ 'x' };
 	} player_t;

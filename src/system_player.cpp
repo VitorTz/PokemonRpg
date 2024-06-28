@@ -2,6 +2,11 @@
 #include "../include/ecs.h"
 
 
+char animationPath[] = ASSETS_PATH "icon/xxx.png";
+std::size_t animationPathLen = strlen(animationPath);
+
+
+
 void poke::PlayerSystem::update(const float dt) {
 	poke::player_t& player = poke::gPlayer;
 	
@@ -29,10 +34,12 @@ void poke::PlayerSystem::update(const float dt) {
 		playerRigidBody.direction.y = 1.0f;
 		player.direction[1] = 'd';
 	}
-
-	player.direction[0] = (playerRigidBody.direction.x == 0.0f && playerRigidBody.direction.y == 0.0f) ? 'i' : 'm';
-
 	
+	player.direction[0] = (playerRigidBody.direction.x == 0.0f && playerRigidBody.direction.y == 0.0f) ? 'i' : 'm';
+		
+	animationPath[animationPathLen - 7] = player.direction[0];
+	animationPath[animationPathLen - 6] = player.direction[1];
+	animationPath[animationPathLen - 5] = player.action;	
 }
 
 

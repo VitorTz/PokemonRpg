@@ -10,7 +10,7 @@ namespace poke {
 	private:
 		std::unique_ptr<poke::Scene> scene;
 		bool shouldChangeScene = false;
-		poke::SceneId nextSceneId = poke::TitleScreenId;
+		poke::SceneId nextSceneId = poke::LevelScreenId;
 
 	private:
 		void loadNextScene();
