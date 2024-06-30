@@ -1,45 +1,57 @@
 #include "../include/system.h"
 #include "../include/ecs.h"
-
-
-char animationPath[] = ASSETS_PATH "icon/xxx.png";
-std::size_t animationPathLen = strlen(animationPath);
-
+#include "../include/util.h"
 
 
 void poke::PlayerSystem::update(const float dt) {
-	poke::player_t& player = poke::gPlayer;
-	
-	const poke::transform_t& playerTransform = poke::gEcs.getTransform(player.playerEntity);
-	poke::rigid_body_t& playerRigidBody = poke::gEcs.getComponent<poke::rigid_body_t>(player.playerEntity);
+	for (const poke::entity_t playerEntity : this->entities) {
+		// player components
+		poke::player_t& player = poke::gEcs.getComponent<poke::player_t>(playerEntity);
+		const poke::transform_t& playerTransform = poke::gEcs.getTransform(playerEntity);
+		poke::rigid_body_t& playerRigidBody = poke::gEcs.getComponent<poke::rigid_body_t>(playerEntity);
+		poke::sprite_t& playerSprite = poke::gEcs.getComponent<poke::sprite_t>(playerEntity);
+		poke::transform_t& playerShadowTransform = poke::gEcs.getTransform(player.playerShadowEntity);
 
-	char lastState[3] = { player.direction[0], player.direction[1], player.action };
-	
-	playerRigidBody.direction = { 0 };
+		// update shadow pos
+		playerShadowTransform.pos.x = (playerTransform.pos.x + playerTransform.size.x / 2.0f) - playerShadowTransform.size.x / 2.0f;
+		playerShadowTransform.pos.y = (playerTransform.pos.y + playerTransform.size.y / 2.0f) + 45.0f;
 
-	if (IsKeyDown(KEY_LEFT)) {
-		playerRigidBody.direction.x = -1.0f;
-		player.direction[1] = 'l';
-	}
-	else if (IsKeyDown(KEY_RIGHT)) {
-		playerRigidBody.direction.x = 1.0f;
-		player.direction[1] = 'r';
-	}
+		// movement
+		playerRigidBody.direction = { 0 };
 
-	if (IsKeyDown(KEY_UP)) {
-		playerRigidBody.direction.y = -1.0f;
-		player.direction[1] = 'u';
-	}
-	else if (IsKeyDown(KEY_DOWN)) {
-		playerRigidBody.direction.y = 1.0f;
-		player.direction[1] = 'd';
+		if (IsKeyDown(KEY_LEFT)) {
+			playerRigidBody.direction.x = -1.0f;
+		}
+		else if (IsKeyDown(KEY_RIGHT)) {
+			playerRigidBody.direction.x = 1.0f;
+		}
+
+		if (IsKeyDown(KEY_UP)) {
+			playerRigidBody.direction.y = -1.0f;
+		}
+		else if (IsKeyDown(KEY_DOWN)) {
+			playerRigidBody.direction.y = 1.0f;
+		}
+
+		// animation
+		if (
+			playerTransform.lastDirection[0] != playerTransform.direction[0] ||
+			playerTransform.lastDirection[1] != playerTransform.direction[1]
+			) {
+			player.currentSprite = 0;
+		}
+		player.currentFrame++;
+		if (player.currentFrame >= POKE_PLAYER_ANIMATION_SPEED) {
+			player.currentFrame = 0;
+			player.currentSprite++;
+			if (player.currentSprite >= 4) {
+				player.currentSprite = 0;
+			}
+			poke::applyCharacterSpriteRect(&playerSprite.rect, playerTransform.direction, player.currentSprite);
+		}
+
 	}
 	
-	player.direction[0] = (playerRigidBody.direction.x == 0.0f && playerRigidBody.direction.y == 0.0f) ? 'i' : 'm';
-		
-	animationPath[animationPathLen - 7] = player.direction[0];
-	animationPath[animationPathLen - 6] = player.direction[1];
-	animationPath[animationPathLen - 5] = player.action;	
 }
 
 

@@ -22,17 +22,19 @@ namespace poke {
 	}	
 
 	typedef struct transform {
-		Vector2 pos = { 0 };
-		Vector2 size = { 0 };		
-		poke::zindex_t zindex = 0;		
+		Vector2 pos{ 0 };
+		Vector2 size{ 0 };
+		char lastDirection[2]{ 'i', 'd' };
+		char direction[2]{ 'i', 'd' };
+		char zindex{ '0' };
 		transform() = default;
-		transform(const poke::zindex_t _zindex) : zindex(_zindex) { }
+		transform(const char _zindex) : zindex(_zindex) { }
 	} transform_t;
 
 	typedef struct rigid_body {
 		Vector2 direction = { 0 };
 		Vector2 lastMovement = { 0 };
-		float speed = 0.0f;
+		float speed{ 0.0f };
 	} rigid_body_t;
 
 
@@ -46,20 +48,47 @@ namespace poke {
 			rect({0.0f, 0.0f, (float) texture.width, (float) texture.height}) {
 
 		}
+		sprite(
+			const char* file_name,
+			Vector2 size
+		) : sprite(file_name) {
+			this->rect.width = size.x;
+			this->rect.height = size.y;
+		} 
 	} sprite_t;
+
+	typedef struct sprite_animation {
+		sprite_t sprite{};
+		std::uint8_t speed{ 0 };
+		std::uint8_t cols{ 0 };
+		std::uint8_t currentFrame{ 0 };
+		std::uint8_t currentSprite{ 0 };
+		std::uint8_t maxSprites{ 0 };
+		sprite_animation(
+			const char* file_name,
+			const int rows,
+			const int cols,
+			const int speed
+		) : sprite(file_name),
+			speed(60 / speed),
+			cols(cols),
+			maxSprites(rows * cols) {
+			sprite.rect.width = (float)(sprite.texture.width / cols);
+			sprite.rect.height = (float)(sprite.texture.height / rows);
+		}
+		sprite_animation() = default;
+	} sprite_animation_t;
 
 	typedef struct obstacle {
 		Rectangle rect;
 		Vector2 hitbox;
 	} obstacle_t;
 
-	typedef struct player {
-		poke::entity_t playerEntity;		
-		char direction[2]{ 'x', 'd' };
-		char action{ 'x' };
+	typedef struct player {		
+		poke::entity_t playerShadowEntity;
+		std::uint8_t currentFrame{ 0 };
+		std::uint8_t currentSprite{ 0 };
+		std::uint8_t action{ 'x' };	
 	} player_t;
-
-
-	inline poke::player_t gPlayer{};
 
 }

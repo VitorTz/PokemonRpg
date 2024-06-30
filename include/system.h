@@ -42,6 +42,14 @@ namespace poke {
 
 	};
 
+	class SpriteAnimationSystem : public poke::System {
+
+	public:
+		void update(float dt) override;
+		void draw(poke::entity_t e) override;
+
+	};
+
 
 	class ObstacleSystem : public poke::System {
 	

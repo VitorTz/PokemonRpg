@@ -21,3 +21,24 @@ unsigned long poke::hash(const char* s) {
     }
     return hash;
 }
+
+
+void poke::applyCharacterSpriteRect(Rectangle* rect, const char direction[2], const std::uint8_t currentSprite) {
+    switch (direction[1]) {
+        case 'l':
+            rect->y = POKE_PLAYER_HEIGHT;
+            break;
+        case 'r':
+            rect->y = POKE_PLAYER_HEIGHT * 2.0f;
+            break;
+        case 'u':
+            rect->y = POKE_PLAYER_HEIGHT * 3.0f;
+            break;
+        case 'd':
+            rect->y = 0.0f;
+            break;
+        default:
+            break;
+    }
+    rect->x = direction[0] == 'i' ? 0.0f : currentSprite * POKE_PLAYER_WIDTH;
+ }

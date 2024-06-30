@@ -28,8 +28,21 @@ namespace poke {
 
 	};
 
+	class BattleScene : public poke::Scene {
+
+	public:
+		BattleScene();
+		void setUpBattle();
+		void update() override;
+		void draw() override;
+
+	};
 
 	class LevelScreen : public poke::Scene {
+
+	private:
+		bool battle;
+		poke::BattleScene battleScene{};
 
 	public:
 		LevelScreen();
@@ -37,6 +50,5 @@ namespace poke {
 		void draw() override;
 
 	};
-
 
 }

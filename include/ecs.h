@@ -10,60 +10,72 @@ namespace poke {
 	class ECS {
 
 	private:
-		std::queue<poke::entity_t> entitiesToDestroy;
+		std::queue<poke::entity_t> entitiesToDestroy{};
 		bool shouldDestroyAllEntities = false;
 
 	private:
-		std::map<poke::zindex_t, std::vector<std::pair<float, poke::entity_t>>> camera{};
+		std::map<char, std::vector<std::pair<float, poke::entity_t>>> camera{};
 		std::array<bool, POKE_MAX_ENTITIES> isOnCamera{};
 	
 	private:
-		poke::EntityManager entity;
-		poke::ComponentManager component;
-		poke::SystemManager system;
+		poke::EntityManager entity{};
+		poke::ComponentManager component{};
+		poke::SystemManager system{};
 
 	public:
 		
 		void init() {
 			
+			// register Component
 			poke::registerType<poke::transform_t>();
 			poke::registerType<poke::rigid_body_t>();
 			poke::registerType<poke::sprite_t>();
+			poke::registerType<poke::sprite_animation_t>();
 			poke::registerType<poke::obstacle_t>();
-
 			poke::registerType<poke::player_t>();
 
+			// register ComponentArray
 			this->component.registerComponentArray<poke::transform_t>();
 			this->component.registerComponentArray<poke::sprite_t>();
 			this->component.registerComponentArray<poke::rigid_body_t>();
 			this->component.registerComponentArray<poke::obstacle_t>();
-			
+			this->component.registerComponentArray<poke::sprite_animation_t>();
+			this->component.registerComponentArray<poke::player_t>();
+				
+			// register System
 			this->system.registerSystem<poke::transform_t, poke::TransformSystem>();
 			this->system.registerSystem<poke::rigid_body_t, poke::RigidBodySystem>();			
 			this->system.registerSystem<poke::sprite_t, poke::SpriteSystem>();
+			this->system.registerSystem<poke::sprite_animation_t, poke::SpriteAnimationSystem>();
 			this->system.registerSystem<poke::obstacle_t, poke::ObstacleSystem>();
 			this->system.registerSystem<poke::player_t, poke::PlayerSystem>();
 
+			// Init Camera
+			for (char i = '0'; i <= '9'; i++) {
+				this->camera.insert({ i, {} });
+				this->camera[i].reserve(POKE_MAX_ENTITIES);
+			}
+
 		}
 
-		poke::entity_t entityCreate(const poke::zindex_t zindex, const bool isOnCamera) {
+		poke::entity_t entityCreate(const char zindex, const bool isOnCamera) {
 			const poke::entity_t e = this->entity.entityCreate();
-			this->addComponent<poke::transform_t>(e, poke::transform_t{});
+			this->addComponent<poke::transform_t>(e, poke::transform_t{zindex});
 			if (isOnCamera) this->submitToCamera(e, zindex);
 			return e;
 		}
 
-		void submitToCamera(const poke::entity_t e, poke::zindex_t zindex) {
+		void submitToCamera(const poke::entity_t e, const char zindex) {
 			if (this->isOnCamera[e] == false) {
 				this->isOnCamera[e] = true;
-				this->camera[zindex].push_back(std::pair<float, poke::entity_t>{0.0f, e});
+				this->camera[zindex].push_back(std::make_pair(0.0f, e));
 			}
 		}
 
 		void rmvFromCamera(const poke::entity_t e) {
 			if (this->isOnCamera[e] == true) {
 				this->isOnCamera[e] = false;
-				const poke::zindex_t z = this->component.at<poke::transform_t>(e).zindex;
+				const char z = this->component.at<poke::transform_t>(e).zindex;
 				std::vector<std::pair<float, poke::entity_t>>& v = this->camera[z];
 				for (std::size_t i = 0; i < v.size(); i++) {
 					if (v[i].second == e) {
@@ -127,6 +139,9 @@ namespace poke {
 				for (auto& pair : this->camera) {
 					pair.second.clear();
 				}
+				for (bool& b : this->isOnCamera) {
+					b = false;
+				}				
 				this->entity.clear();
 				this->component.clear();
 				this->system.clear();
