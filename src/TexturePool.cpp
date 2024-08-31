@@ -3,13 +3,13 @@
 
 
 sf::Sprite pk::TexturePool::get(const char* filePath) {
-    const unsigned long h = std::hash<const char*>{}(filePath);
     sf::Sprite sprite{};
+    const unsigned long h = std::hash<const char*>{}(filePath);
     if (this->textureMap.find(h) == this->textureMap.end()) {        
-        this->textureMap[h].loadFromFile(filePath);
+        this->textureMap[h].loadFromFile(filePath);        
     }
     sprite.setTexture(this->textureMap[h]);
-    return sprite;
+    return sprite;    
 }
 
 

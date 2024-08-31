@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include "System.hpp"
 #include <memory>
+#include <iostream>
 #include "../constants.hpp"
 #include "../TypeId.hpp"
 
@@ -31,21 +32,25 @@ namespace pk {
             template<typename T>
             void insert(const pk::entity_t e) {
                 const pk::component_t id = pk::gTypeId.get<T>();
-                this->systemMap[id]->entities.insert(e);
-                this->systemByEntity[e].insert(id);
+                if (this->systemMap.find(id) != this->systemMap.end()) {
+                    this->systemMap[id]->entities.insert(e);
+                    this->systemByEntity[e].insert(id);                    
+                }
             }
 
             template<typename T>
             void erase(const pk::entity_t e) {
                 const pk::component_t id = pk::gTypeId.get<T>();
-                this->systemMap[id]->entities.erase(e);
-                this->systemByEntity[e].erase(id);
+                if (this->systemMap.find(id) != this->systemMap.end()) {
+                    this->systemMap[id]->entities.erase(e);
+                    this->systemByEntity[e].erase(id);
+                }
             }
 
             template<typename T, typename S>
             const S* getSystem() const {
                 const pk::component_t id = pk::gTypeId.get<T>();
-                this->systemMap[id].get();
+                this->systemMap.at(id).get();
             }
 
             void update(const float dt) {
@@ -54,7 +59,7 @@ namespace pk {
                 }
             }
 
-            void draw(sf::RenderWindow& window, const pk::ZindexEntityVector& entities) {
+            void draw(sf::RenderWindow& window, const std::vector<std::pair<float, pk::entity_t>>& entities) {
                 for (const std::pair<float, pk::entity_t>& pair : entities) {
                     for (const pk::component_t id : this->systemByEntity[pair.second]) {
                         this->systemMap[id]->draw(window, pair.second);
@@ -80,7 +85,7 @@ namespace pk {
 
             std::size_t componentSystemCount() const {
                 return this->systemMap.size();
-            }            
+            }
         
     };
     

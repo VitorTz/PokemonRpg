@@ -1,8 +1,10 @@
 #pragma once
+#include <algorithm>
 #include "EntityManager.hpp"
 #include "ComponentManager.hpp"
 #include "SystemManager.hpp"
 #include "components.hpp"
+#include "Camera.hpp"
 #include "../util.hpp"
 
 
@@ -13,22 +15,14 @@ namespace pk {
         private:
             pk::EntityManager entity{};
             pk::ComponentManager component{};
-            pk::SystemManager system{};
-        
-        private:
-            std::array<bool, pk::MAX_ENTITIES> onCamera{};
-            pk::Camera camera{};
+            pk::SystemManager system{};        
         
         private:
             std::queue<pk::entity_t> entitiesToDestroy{};
-            bool shouldDestroyAllEntities{};
+            bool shouldDestroyAllEntities{};        
         
         public:
-            void init() {
-                for (pk::zindex_t zindex = pk::ZINDEX_MIN; zindex <= pk::ZINDEX_MAX; zindex++) {
-                    this->camera.insert({zindex, {}});
-                    this->camera[zindex].reserve(pk::MAX_ENTITIES);
-                }
+            void init() {                
                 pk::gTypeId.registerId<pk::transform_t>();
                 pk::gTypeId.registerId<pk::sprite_t>();
                 pk::gTypeId.registerId<pk::collision_body_t>();
@@ -49,7 +43,8 @@ namespace pk {
 
             pk::entity_t entityCreate(const pk::zindex_t zindex, const bool isOnCamera) {
                 const pk::entity_t e = this->entity.entityCreate();
-                this->component.insert<pk::transform_t>(e, pk::transform_t{zindex});            
+                this->component.insert<pk::transform_t>(e, pk::transform_t{zindex});
+                if (isOnCamera) pk::gCamera.insert(e);
                 return e;
             }
 
@@ -57,15 +52,72 @@ namespace pk {
                 this->entitiesToDestroy.push(e);
             }
 
-            void submitToCamera(const pk::entity_t e) {
-                const pk::zindex_t zindex = this->component.at<pk::transform_t>(e).zindex;
-                if (this->onCamera[e] == false) {
-                    this->onCamera[e] = true;
-                    this->camera[zindex].push_back({0.0f, e});
+            void clear() {
+                this->shouldDestroyAllEntities = true;
+            }
+
+            template<typename T>
+            T& getComponent(const pk::entity_t e) {
+                return this->component.at<T>(e);
+            }
+
+            template<typename T>
+            void insertComponent(const pk::entity_t e, T c) {
+                this->component.insert<T>(e, std::move(c));
+                this->system.insert<T>(e);
+            }
+
+            template<typename T>
+            void eraseComponent(const pk::entity_t e) {
+                this->component.erase<T>(e);
+                this->system.erase<T>(e);
+            }
+
+            template<typename T>
+            void insertToSystem(const pk::entity_t e) {
+                this->system.insert<T>(e);
+            }
+
+            template<typename T>
+            void eraseFromSystem(const pk::entity_t e) {
+                this->system.erase<T>(e);
+            }
+
+            void createSprite(const pk::entity_t e, const char* filePath) {
+                this->insertComponent<pk::sprite_t>(e, pk::sprite_t{filePath});                
+                pk::sprite_t& s = this->component.at<pk::sprite_t>(e);
+                pk::transform_t& t = this->component.at<pk::transform_t>(e);
+                t.size = (sf::Vector2f) s.sfSprite.getTexture()->getSize();
+            }                     
+
+            void update(const float dt) {
+                this->system.update(dt);
+
+                if (this->shouldDestroyAllEntities) {
+                    this->shouldDestroyAllEntities = false;
+                    this->entitiesToDestroy = std::queue<pk::entity_t>();
+                    pk::gCamera.clear();
+                    this->entity.clear();
+                    this->component.clear();
+                    this->system.clear();                    
+                }
+
+                while (this->entitiesToDestroy.empty() == false) {
+                    const pk::entity_t e = this->entitiesToDestroy.front();
+                    this->entitiesToDestroy.pop();
+                    pk::gCamera.erase(e);
+                    this->entity.entityDestroy(e);
+                    this->component.entityDestroy(e);
+                    this->system.entityDestroy(e);
                 }
             }
 
+            void draw(sf::RenderWindow& window, const std::vector<std::pair<float, pk::entity_t>>& entities) {
+                this->system.draw(window, entities);
+            }
 
     };
+
+    inline pk::ECS gEcs{};
     
 } // namespace pk

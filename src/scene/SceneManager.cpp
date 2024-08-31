@@ -1,4 +1,4 @@
-#include "Scene.hpp"
+#include "../../include/scene/Scene.hpp"
 
 
 void pk::SceneManager::init() {
@@ -8,6 +8,7 @@ void pk::SceneManager::init() {
 
 
 void pk::SceneManager::loadNextScene() {
+    std::cout << "[LOADING NEXT SCENE] -> " << pk::sceneIdToString.at(this->nextScene) << '\n';
     switch (this->nextScene) {
         case pk::SceneId::TitleScreenId:
             this->scene = std::make_unique<pk::TitleScreen>();
@@ -18,9 +19,11 @@ void pk::SceneManager::loadNextScene() {
         default:
             break;
     }
+    std::cout << "[SCENE LOADED] -> " << pk::sceneIdToString.at(this->nextScene) << '\n';
 }
 
 void pk::SceneManager::changeScene(const pk::SceneId sceneId) {
+    std::cout << "[CHANGE SCENE REQUEST] -> " << pk::sceneIdToString.at(sceneId) << '\n';
     this->shouldChangeScene = true;
     this->nextScene = sceneId;
 }

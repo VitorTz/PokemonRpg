@@ -1,6 +1,6 @@
 #pragma once
 #include "../types.hpp"
-#include <SFML/Graphics.hpp>
+#include "../TexturePool.hpp"
 
 
 namespace pk {
@@ -10,7 +10,7 @@ namespace pk {
     typedef struct transform {
         sf::Vector2f pos{};
         sf::Vector2f size{};
-        sf::Vector2f scale{};
+        sf::Vector2f scale{1.0f, 1.0f};
         float rotation{};
         pk::zindex_t zindex{};
         transform() = default;
@@ -19,6 +19,8 @@ namespace pk {
 
     typedef struct sprite {
         sf::Sprite sfSprite;
+        sprite() = default;
+        sprite(const char* filePath) : sfSprite(pk::gTexturePool.get(filePath)) { }
     } sprite_t;
 
     typedef struct collision_body {

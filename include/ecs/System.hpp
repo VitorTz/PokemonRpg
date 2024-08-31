@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../types.hpp"
 #include <unordered_set>
+#include <iostream>
+#include "../types.hpp"
 
 
 namespace pk {

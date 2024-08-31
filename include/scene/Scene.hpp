@@ -1,8 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "../constants.hpp"
+#include <iostream>
+#include <stdlib.h>
 #include "SceneId.hpp"
+#include "../ecs/Camera.hpp"
+#include "../ecs/ECS.hpp"
+#include "../constants.hpp"
+#include "../util.hpp"
 
 
 namespace pk {

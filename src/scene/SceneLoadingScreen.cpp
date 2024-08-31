@@ -1,4 +1,4 @@
-#include "Scene.hpp"
+#include "../../include/scene/Scene.hpp"
 
 
 pk::LoadingScreen::LoadingScreen() {
