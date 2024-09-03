@@ -4,6 +4,8 @@
 #include "types.hpp"
 
 
+#define ASSETS_PATH "./assets/"
+
 namespace pk {
 
     constexpr unsigned int SCREEN_W{1280};
@@ -23,6 +25,8 @@ namespace pk {
 
     constexpr pk::zindex_t ZINDEX_MIN{0};
     constexpr pk::zindex_t ZINDEX_MAX{10};
+
+    constexpr char MAP_SPRITES[] = ASSETS_PATH "map/map-sprites";
 
     
 } // namespace pk

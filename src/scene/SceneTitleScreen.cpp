@@ -7,7 +7,9 @@ pk::TitleScreen::TitleScreen() {
 
 
 void pk::TitleScreen::update(const float dt) {
-    pk::gSceneManager.changeScene(pk::SceneId::LevelSceneId);    
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        pk::gSceneManager.changeScene(pk::SceneId::LevelSceneId);
+    }
 }
 
 
