@@ -23,3 +23,20 @@ void pk::transformSetCenter(pk::transform_t& t, const sf::Vector2f& center) {
     t.pos.x = center.x - t.size.x / 2.0f;
     t.pos.y = center.y - t.size.y / 2.0f;
 }
+
+
+void pk::transformPrint(const pk::transform_t& t) {
+    std::cout << "Transform(" 
+            << t.pos.x 
+            << ',' 
+            << ' ' 
+            << t.pos.y 
+            << ',' 
+            << ' ' 
+            << t.size.x 
+            << ',' 
+            << ' ' 
+            << t.size.y 
+            << ')' 
+            << '\n';
+}

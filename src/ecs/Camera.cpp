@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 #include "../../include/ecs/Camera.hpp"
 #include "../../include/constants.hpp"
 #include "../../include/ecs/ECS.hpp"
@@ -53,8 +54,14 @@ void pk::Camera::setCenter(const sf::Vector2f& center) {
 }
 
 
-void pk::Camera::addZoom(const float delta) {
+void pk::Camera::setCenter(const float x, const float y) {
+    this->view.setCenter(x, y);
+}
+
+
+void pk::Camera::addZoom(const float delta) {    
     this->zoom = std::clamp(this->zoom + delta, pk::CAMERA_MIN_ZOON, pk::CAMERA_MAX_ZOON);
+    this->view.setSize(pk::SCREEN_SIZE);
     this->view.zoom(this->zoom);
 }
 

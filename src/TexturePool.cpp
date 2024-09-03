@@ -1,15 +1,17 @@
 #include "../include/TexturePool.hpp"
 #include "../include/util.hpp"
+#include <iostream>
 
 
 sf::Sprite pk::TexturePool::get(const char* filePath) {
     sf::Sprite sprite{};
     const unsigned long h = std::hash<const char*>{}(filePath);
     if (this->textureMap.find(h) == this->textureMap.end()) {        
-        this->textureMap[h].loadFromFile(filePath);        
+        const bool status = this->textureMap[h].loadFromFile(filePath);
+        std::cout << "Texture " << filePath << " loaded | Status: " << status << '\n';
     }
     sprite.setTexture(this->textureMap[h]);
-    return sprite;    
+    return sprite;
 }
 
 
