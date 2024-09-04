@@ -3,6 +3,7 @@
 #include "../../include/ecs/Camera.hpp"
 #include "../../include/constants.hpp"
 #include "../../include/ecs/ECS.hpp"
+#include "../../include/Input.hpp"
 
 
 pk::Camera::Camera() {
@@ -43,6 +44,9 @@ void pk::Camera::draw(sf::RenderWindow& window) {
             pair2.first = t.pos.y + t.size.y / 2.0f;
         }
         std::sort(pair1.second.begin(), pair1.second.end());
+        // for (const std::pair<float, pk::entity_t>& pair2 : pair1.second) {
+        //     pk::gEcs.draw(window, pair2.second);
+        // }
         pk::gEcs.draw(window, pair1.second);
     }
     window.setView(window.getDefaultView());
@@ -74,6 +78,12 @@ void pk::Camera::setZoom(const float z) {
 
 float pk::Camera::getZoom() const {
     return this->zoom;
+}
+
+
+void pk::Camera::updateZoom(const float dt) {
+    const float mouseDelta = pk::gInput.getMouseWheelDelta() * dt * 2.0f;
+    this->addZoom(mouseDelta);
 }
 
 

@@ -48,6 +48,15 @@ namespace pk {
 
     };
 
+    class TestScene1 : public pk::Scene {
+
+        public:
+            TestScene1();
+            void update(float dt) override;
+            void draw(sf::RenderWindow& window) override;
+
+    };
+
     class SceneManager : public pk::Scene {
 
         private:

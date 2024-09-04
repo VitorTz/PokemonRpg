@@ -22,10 +22,11 @@ namespace pk {
             void clear();
             void draw(sf::RenderWindow& window);
             void setCenter(const sf::Vector2f& center);
-            void setCenter(const float x, const float y);
+            void setCenter(float x, float y);
             void addZoom(float delta);
             void setZoom(float zoom);
             float getZoom() const;
+            void updateZoom(float dt);
             std::size_t getEntityCount() const;
 
     };

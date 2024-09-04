@@ -2,8 +2,11 @@
 
 
 void pk::SceneManager::init() {
-    this->loadNextScene();
-    this->loadingScreen = std::make_unique<pk::LoadingScreen>();
+    std::cout << "[Iniciando SceneManager]\n";
+        pk::mAssert(pk::sceneIdToString.size() == pk::SceneId::SceneCount, "[Size invalid! -> sceneIdToString]");
+        this->loadNextScene();
+        this->loadingScreen = std::make_unique<pk::LoadingScreen>();
+    std::cout << "[SceneManager iniciado]\n";
 }
 
 
@@ -15,7 +18,10 @@ void pk::SceneManager::loadNextScene() {
             break;
         case pk::SceneId::LevelSceneId:
             this->scene = std::make_unique<pk::Level>();
-            break;        
+            break;
+        case pk::SceneId::TestScene1Id:
+            this->scene = std::make_unique<pk::TestScene1>();
+            break;
         default:
             break;
     }

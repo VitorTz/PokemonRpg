@@ -59,6 +59,12 @@ namespace pk {
                 }
             }
 
+            void draw(sf::RenderWindow& window, const pk::entity_t e) {
+                for (const pk::component_t id : this->systemByEntity[e]) {
+                    this->systemMap[id]->draw(window, e);
+                }
+            }
+
             void draw(sf::RenderWindow& window, const std::vector<std::pair<float, pk::entity_t>>& entities) {
                 for (const std::pair<float, pk::entity_t>& pair : entities) {
                     for (const pk::component_t id : this->systemByEntity[pair.second]) {

@@ -1,5 +1,6 @@
 #include  "../include/util.hpp"
 #include "../include/ecs/ECS.hpp"
+#include <cmath>
 #include <iostream>
 #include <cstdlib>
 
@@ -39,4 +40,48 @@ void pk::transformPrint(const pk::transform_t& t) {
             << t.size.y 
             << ')' 
             << '\n';
+}
+
+
+void pk::normalizeVec(sf::Vector2f* vec) {
+    const float m = std::sqrt(vec->x * vec->x + vec->y * vec->y);
+    if (m > 1.0f) {
+        vec->x /= m;
+        vec->y /= m;
+    }
+}
+
+
+sf::Vector2f pk::getDirection(
+    const sf::Keyboard::Key left,
+    const sf::Keyboard::Key right,
+    const sf::Keyboard::Key up,
+    const sf::Keyboard::Key down
+) {
+    sf::Vector2f direction{};
+    
+    if (sf::Keyboard::isKeyPressed(up)) {
+        direction.y = -1.0f;
+    } else if (sf::Keyboard::isKeyPressed(down)) {
+        direction.y = 1.0f;
+    }
+
+    if (sf::Keyboard::isKeyPressed(left)) {
+        direction.x = -1.0f;
+    } else if (sf::Keyboard::isKeyPressed(right)) {
+        direction.x = 1.0f;
+    }
+
+    pk::normalizeVec(&direction);
+    return direction;
+}
+
+
+sf::Vector2f pk::getDirection() {
+    return pk::getDirection(
+        sf::Keyboard::A,
+        sf::Keyboard::D,
+        sf::Keyboard::W,
+        sf::Keyboard::S
+    );
 }

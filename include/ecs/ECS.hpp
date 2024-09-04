@@ -1,5 +1,4 @@
 #pragma once
-#include <algorithm>
 #include "EntityManager.hpp"
 #include "ComponentManager.hpp"
 #include "SystemManager.hpp"
@@ -15,30 +14,36 @@ namespace pk {
         private:
             pk::EntityManager entity{};
             pk::ComponentManager component{};
-            pk::SystemManager system{};        
+            pk::SystemManager system{};
         
         private:
             std::queue<pk::entity_t> entitiesToDestroy{};
-            bool shouldDestroyAllEntities{};        
+            bool shouldDestroyAllEntities{};
         
         public:
-            void init() {                
-                pk::gTypeId.registerId<pk::transform_t>();
-                pk::gTypeId.registerId<pk::sprite_t>();
-                pk::gTypeId.registerId<pk::collision_body_t>();
-                pk::gTypeId.registerId<pk::collision_body_static_t>();
-                pk::mAssert(pk::gTypeId.size(), "[INVALID REGISTERED COMPONENT NUM]");
+            void init() {
+                std::cout << "[Registrando componentes]\n";
+                    pk::gTypeId.registerId<pk::transform_t>();
+                    pk::gTypeId.registerId<pk::sprite_t>();
+                    pk::gTypeId.registerId<pk::collision_body_t>();
+                    pk::gTypeId.registerId<pk::collision_body_static_t>();
+                    pk::mAssert(pk::gTypeId.size(), "[INVALID REGISTERED COMPONENT NUM]");
+                std::cout << "[Componens registrados]\n";
 
-                this->component.registerComponent<pk::transform_t>();
-                this->component.registerComponent<pk::sprite_t>();
-                this->component.registerComponent<pk::collision_body_t>();
-                this->component.registerComponent<pk::collision_body_static_t>();
-                pk::mAssert(this->component.componentArrayCount() == pk::NUM_COMPONENTS, "[INVALID COMPONENT ARRAY NUM]");
+                std::cout << "[Registrando ComponentArray]\n";
+                    this->component.registerComponent<pk::transform_t>();
+                    this->component.registerComponent<pk::sprite_t>();
+                    this->component.registerComponent<pk::collision_body_t>();
+                    this->component.registerComponent<pk::collision_body_static_t>();
+                    pk::mAssert(this->component.componentArrayCount() == pk::NUM_COMPONENTS, "[INVALID COMPONENT ARRAY NUM]");
+                std::cout << "[ComponentArray registrados]\n";
 
-                this->system.registerComponent<pk::sprite_t, pk::SpriteSystem>();
-                this->system.registerComponent<pk::collision_body_t, pk::CollisionBodySystem>();
-                this->system.registerComponent<pk::collision_body_static_t, pk::CollisionBodyStaticSystem>();
-                pk::mAssert(this->system.componentSystemCount() == pk::NUM_COMPONENTS - 1, "[INVALID COMPONENT SYSTEM NUM]");
+                std::cout << "[Registrando System]\n";
+                    this->system.registerComponent<pk::sprite_t, pk::SpriteSystem>();
+                    this->system.registerComponent<pk::collision_body_t, pk::CollisionBodySystem>();
+                    this->system.registerComponent<pk::collision_body_static_t, pk::CollisionBodyStaticSystem>();
+                    pk::mAssert(this->system.componentSystemCount() == pk::NUM_COMPONENTS - 1, "[INVALID COMPONENT SYSTEM NUM]");
+                std::cout << "[System registrados]\n";
             }
 
             pk::entity_t entityCreate(const pk::zindex_t zindex, const bool isOnCamera) {
@@ -112,7 +117,14 @@ namespace pk {
                 }
             }
 
-            void draw(sf::RenderWindow& window, const std::vector<std::pair<float, pk::entity_t>>& entities) {
+            void draw(sf::RenderWindow& window, const pk::entity_t e) {
+                this->system.draw(window, e);
+            }
+
+            void draw(
+                sf::RenderWindow& window,
+                const std::vector<std::pair<float, pk::entity_t>>& entities
+            ) {
                 this->system.draw(window, entities);
             }
 

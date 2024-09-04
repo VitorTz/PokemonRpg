@@ -13,7 +13,7 @@ namespace pk {
     constexpr float SCREEN_W_F = static_cast<float>(pk::SCREEN_W);
     constexpr float SCREEN_H_F = static_cast<float>(pk::SCREEN_H);
     constexpr char WINDOW_TITLE[] = "PokemonRpg";
-    constexpr pk::SceneId MAIN_SCENE{pk::SceneId::TitleScreenId};
+    constexpr pk::SceneId MAIN_SCENE{pk::SceneId::TestScene1Id};
     constexpr float SCREEN_CENTERX = pk::SCREEN_W_F / 2.0f;
     constexpr float SCREEN_CENTERY = pk::SCREEN_H_F / 2.0f;
     const static sf::Vector2f SCREEN_SIZE(pk::SCREEN_W_F, pk::SCREEN_H_F);
@@ -26,6 +26,7 @@ namespace pk {
     constexpr pk::zindex_t ZINDEX_MIN{0};
     constexpr pk::zindex_t ZINDEX_MAX{10};
 
+    constexpr char MAIN_WORLD[] = ASSETS_PATH "map/world.tmx";
     constexpr char MAP_SPRITES[] = ASSETS_PATH "map/map-sprites";
 
     

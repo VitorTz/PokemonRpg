@@ -8,7 +8,8 @@ sf::Sprite pk::TexturePool::get(const char* filePath) {
     const unsigned long h = std::hash<const char*>{}(filePath);
     if (this->textureMap.find(h) == this->textureMap.end()) {        
         const bool status = this->textureMap[h].loadFromFile(filePath);
-        std::cout << "Texture " << filePath << " loaded | Status: " << status << '\n';
+        std::cout << "[TEXTURE LOAD] -> [" << filePath << "] | Status: " << status << '\n';
+        pk::mAssert(status, "[TEXTURE LOAD FAILED]");        
     }
     sprite.setTexture(this->textureMap[h]);
     return sprite;
