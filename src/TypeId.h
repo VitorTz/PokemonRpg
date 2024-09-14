@@ -20,6 +20,7 @@ namespace pk {
             this->typeMap.emplace(typeid(pk::sprite_t).name(), this->typeMap.size());
             this->typeMap.emplace(typeid(pk::collision_box_t).name(), this->typeMap.size());
             this->typeMap.emplace(typeid(pk::collision_box_static_t).name(), this->typeMap.size());
+            this->typeMap.emplace(typeid(pk::water_t).name(), this->typeMap.size());
             assert(this->typeMap.size() == pk::NUM_COMPONENTS);
         }
 

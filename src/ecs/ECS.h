@@ -57,6 +57,34 @@ namespace pk {
             return this->component->at<T>(e);
         }
 
+        std::pair<bool, pk::entity_t> checkCollision(const sf::FloatRect& rect) const {
+            std::pair<bool, pk::entity_t> r{false, 0};
+            const std::unordered_set<pk::entity_t>& ent1 = this->system->getEntitiesFromSystem<pk::collision_box_t>();
+            const std::unordered_set<pk::entity_t>& ent2 = this->system->getEntitiesFromSystem<pk::collision_box_static_t>();
+            // collision_box_t
+                for (const pk::entity_t e : ent1) {
+                    const pk::collision_box_t& c = this->component->at<pk::collision_box_t>(e);
+                    if (c.rect.intersects(rect)) {
+                        r.first = true;
+                        r.second = e;
+                        break;
+                    }
+                }
+
+            // collision_box_static_t
+                if (r.first == false) {
+                    for (const pk::entity_t e : ent2) {
+                        const pk::collision_box_static_t& c = this->component->at<pk::collision_box_static_t>(e);
+                        if (c.rect.intersects(rect)) {
+                            r.first = true;
+                            r.second = e;
+                            break;
+                        }
+                    }
+                }
+            return r;
+        }
+
         pk::transform_t& getTransform(const pk::entity_t e) {
             return this->component->getTransform(e);
         }
@@ -83,12 +111,24 @@ namespace pk {
             }
         }
 
-        void draw(sf::RenderWindow& window) {
+        void draw(sf::RenderWindow& window) const {
             pk::gCamera.draw(window, this->system.get());
         }
 
         void clear() {
             this->shouldDestroyAllEntities = true;
+        }
+
+        const pk::EntityManager* getEntityManager() const {
+            return this->entity.get();
+        }
+
+        const pk::ComponentManager* getComponentManager() const {
+            return this->component.get();
+        }
+
+        const pk::SystemManager* getSystemManager() const {
+            return this->system.get();
         }
 
     };

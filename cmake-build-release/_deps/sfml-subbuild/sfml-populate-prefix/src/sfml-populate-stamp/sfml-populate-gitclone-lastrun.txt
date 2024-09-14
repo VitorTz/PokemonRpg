@@ -3,9 +3,9 @@
 # No other meaning or use of this file is supported.
 
 method=git
-command=/home/vitor/Documents/git/Clion/clion-2024.2.1/bin/cmake/linux/x64/bin/cmake;-P;/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/tmp/sfml-populate-gitclone.cmake
-source_dir=/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-src
-work_dir=/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps
+command=/home/vitor/Programs/Clion/clion-2024.2.1/bin/cmake/linux/x64/bin/cmake;-P;/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/tmp/sfml-populate-gitclone.cmake
+source_dir=/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-src
+work_dir=/home/vitor/git/PokemonRpg/cmake-build-release/_deps
 repository=https://github.com/SFML/SFML.git
 remote=origin
 init_submodules=TRUE

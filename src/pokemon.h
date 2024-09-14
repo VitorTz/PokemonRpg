@@ -19,9 +19,12 @@
 #include <map>
 #include <cstdint>
 #include <filesystem>
+#include <cmath>
 #include <fstream>
 #include <typeinfo>
 #include <cassert>
+#include <thread>
+#include <random>
 
 
 namespace pk {
@@ -40,14 +43,49 @@ namespace pk {
     constexpr float SCREEN_CENTERX{SCREEN_WF / 2.0f};
     constexpr float SCREEN_CENTERY{SCREEN_HF / 2.0f};
 
+    constexpr float TILE_SIZE{16.0f};
+
     constexpr pk::entity_t MAX_ENTITIES{4096};
     constexpr pk::zindex_t CAMERA_MIN_ZINDEX{0};
     constexpr pk::zindex_t CAMERA_MAX_ZINDEX{10};
+    constexpr float CAMERA_ZOOM_SPEED{0.25f};
+    constexpr float CAMERA_MIN_ZOOM{0.25f};
+    constexpr float CAMERA_MAX_ZOOM{4.0f};
 
     const static sf::Vector2f SCREEN_SIZE(pk::SCREEN_WF, pk::SCREEN_HF);
     const static sf::Vector2f SCREEN_CENTER(pk::SCREEN_CENTERX, pk::SCREEN_CENTERY);
     const static sf::FloatRect SCREEN_RECT(0.0f, 0.0f, SCREEN_WF, SCREEN_HF);
 
+    enum SceneId {
+        TitleScreenId,
+        LevelSceneId,
+        LoadingScreenId,
+        TestScene1Id
+    };
+
+    constexpr float ANIMATION_TIME_SLOW{0.30f};
+    constexpr float ANIMATION_TIME_NORMAL{0.20f};
+    constexpr float ANIMATION_TIME_FAST{0.10f};
+    constexpr float ANIMATION_WATER_TIME{pk::ANIMATION_TIME_SLOW};
+    constexpr pk::SceneId MAIN_SCENE{pk::TestScene1Id};
+
+    const static sf::Vector2f WATER_POS_COAST{0.0f, 3456.0f};
+    const static sf::Vector2f WATER_POS{0.0f, 3472.0f};
+    constexpr std::size_t WATER_SPRITES_NUM{2};
+    constexpr std::array<const char*, 4> WATER_SPRITES = {
+        ASSETS_PATH "graphics/water/water1.png",
+        ASSETS_PATH "graphics/water/water2.png",
+        ASSETS_PATH "graphics/water/water3.png",
+        ASSETS_PATH "graphics/water/water4.png"
+    };
+
+    enum Anchor {
+        Center,
+        North,
+        South,
+        West,
+        East
+    };
 
 }
 

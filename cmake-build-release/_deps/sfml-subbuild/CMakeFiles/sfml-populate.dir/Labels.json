@@ -2,37 +2,37 @@
 	"sources" : 
 	[
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/CMakeFiles/sfml-populate"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/CMakeFiles/sfml-populate"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/CMakeFiles/sfml-populate.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/CMakeFiles/sfml-populate.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/CMakeFiles/sfml-populate-complete.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/CMakeFiles/sfml-populate-complete.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-build.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-build.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-configure.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-configure.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-download.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-download.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-install.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-install.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-mkdir.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-mkdir.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-patch.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-patch.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-test.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-test.rule"
 		},
 		{
-			"file" : "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-update.rule"
+			"file" : "/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-subbuild/sfml-populate-prefix/src/sfml-populate-stamp/sfml-populate-update.rule"
 		}
 	],
 	"target" : 

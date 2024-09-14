@@ -1,4 +1,4 @@
-# Install script for directory: /home/vitor/Documents/git/PokemonRpg
+# Install script for directory: /home/vitor/git/PokemonRpg
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/vitor/Documents/git/PokemonRpg/cmake-build-release/_deps/sfml-build/cmake_install.cmake")
+  include("/home/vitor/git/PokemonRpg/cmake-build-release/_deps/sfml-build/cmake_install.cmake")
 
 endif()
 
@@ -56,5 +56,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/vitor/Documents/git/PokemonRpg/cmake-build-release/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/vitor/git/PokemonRpg/cmake-build-release/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

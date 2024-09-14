@@ -20,7 +20,7 @@ namespace pk {
 
     };
 
-    class TransformSystem : public pk::System {
+    class TransformSystem final : public pk::System {
 
     public:
         void update(float dt) override;
@@ -28,7 +28,7 @@ namespace pk {
 
     };
 
-    class SpriteSystem : public pk::System {
+    class SpriteSystem final : public pk::System {
 
     public:
         void update(float dt) override;
@@ -36,7 +36,7 @@ namespace pk {
 
     };
 
-    class CollisionBoxSystem : public pk::System {
+    class CollisionBoxSystem final : public pk::System {
 
     public:
         void update(float dt) override;
@@ -44,7 +44,15 @@ namespace pk {
 
     };
 
-    class CollisionBoxStaticSystem : public pk::System {
+    class WaterSystem final : public pk::System {
+
+    public:
+        void update(float dt) override;
+        void draw(sf::RenderWindow& window, pk::entity_t e) override;
+
+    };
+
+    class CollisionBoxStaticSystem final : public pk::System {
 
     public:
         void update(float dt) override;

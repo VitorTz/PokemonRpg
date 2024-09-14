@@ -15,6 +15,7 @@ sf::Sprite pk::TexturePool::get(const char *fileName) {
     if (this->textureMap.find(h) == this->textureMap.end()) {
         const bool s = this->textureMap[h].loadFromFile(fileName);
         assert(s && "[IMAGE NOT LOADING]");
+        std::cout << "[IMAGE LOADED! -> " << fileName << ']' << '\n';
     }
     sprite.setTexture(this->textureMap[h]);
     return sprite;

@@ -24,6 +24,7 @@ namespace pk {
             this->componentMap.emplace(pk::gTypeId.get<pk::sprite_t>(), std::make_unique<pk::ComponentArray<pk::sprite_t>>());
             this->componentMap.emplace(pk::gTypeId.get<pk::collision_box_t>(), std::make_unique<pk::ComponentArray<pk::collision_box_t>>());
             this->componentMap.emplace(pk::gTypeId.get<pk::collision_box_static_t>(), std::make_unique<pk::ComponentArray<pk::collision_box_static_t>>());
+            this->componentMap.emplace(pk::gTypeId.get<pk::water_t>(), std::make_unique<pk::ComponentArray<pk::water_t>>());
             assert(this->componentMap.size() == pk::NUM_COMPONENTS);
             this->transformArray = dynamic_cast<pk::ComponentArray<pk::transform_t>*>(this->componentMap[pk::gTypeId.get<pk::transform_t>()].get());
         }

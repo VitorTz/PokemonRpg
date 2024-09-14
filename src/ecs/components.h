@@ -10,7 +10,7 @@
 
 namespace pk {
 
-    constexpr std::size_t NUM_COMPONENTS{4};
+    constexpr std::size_t NUM_COMPONENTS{5};
 
     typedef struct transform {
         sf::Vector2f pos{};
@@ -38,8 +38,11 @@ namespace pk {
 
     typedef struct collision_box {
         sf::FloatRect rect{};
-        sf::Vector2f scale{1.0f, 1.0f};
     } collision_box_t;
+
+    typedef struct water {
+        bool isCoast{};
+    } water_t;
 
 }
 

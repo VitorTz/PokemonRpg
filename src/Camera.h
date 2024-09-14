@@ -16,6 +16,9 @@ namespace pk {
         pk::CameraMap cameraMap{};
         std::array<bool, pk::MAX_ENTITIES> onCamera{};
         std::size_t mSize{};
+        sf::View view{};
+        sf::FloatRect cameraRect{};
+        float zoom{1.0f};
 
     public:
         Camera();
@@ -23,6 +26,12 @@ namespace pk {
         void erase(pk::entity_t e);
         void draw(sf::RenderWindow& window, pk::SystemManager* system);
         void clear();
+        void setCenter(const sf::Vector2f& center);
+        void setCenter(float x, float y);
+        void addZoom(float z);
+        void setZoom(float z);
+        float getZoom() const;
+        const sf::FloatRect& getCameraRect() const;
         std::size_t size() const;
 
     };

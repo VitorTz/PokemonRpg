@@ -26,6 +26,7 @@ namespace pk {
             this->systemMap.emplace(pk::gTypeId.get<pk::sprite_t>(), std::make_unique<pk::SpriteSystem>());
             this->systemMap.emplace(pk::gTypeId.get<pk::collision_box_t>(), std::make_unique<pk::CollisionBoxSystem>());
             this->systemMap.emplace(pk::gTypeId.get<pk::collision_box_static_t>(), std::make_unique<pk::CollisionBoxStaticSystem>());
+            this->systemMap.emplace(pk::gTypeId.get<pk::water_t>(), std::make_unique<pk::WaterSystem>());
             assert(this->systemMap.size() == pk::NUM_COMPONENTS);
 
             this->entityToSystem.reserve(pk::MAX_ENTITIES);
@@ -35,6 +36,7 @@ namespace pk {
 
             this->systemOrder.reserve(pk::NUM_COMPONENTS);
             this->systemOrder.push_back(pk::gTypeId.get<pk::collision_box_t>());
+            this->systemOrder.push_back(pk::gTypeId.get<pk::water_t>());
         }
 
         template<typename T>
@@ -62,6 +64,12 @@ namespace pk {
             for (const pk::component_t id : this->systemOrder) {
                 this->systemMap[id]->update(dt);
             }
+        }
+
+        template<typename T>
+        const std::unordered_set<pk::entity_t>& getEntitiesFromSystem() {
+            const pk::component_t id = pk::gTypeId.get<T>();
+            return this->systemMap[id]->entities;
         }
 
         void draw(sf::RenderWindow& window, const pk::OrderedEntityVector& v) {
