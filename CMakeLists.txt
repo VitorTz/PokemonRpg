@@ -13,9 +13,26 @@ FetchContent_Declare(SFML
     GIT_SHALLOW ON)
 FetchContent_MakeAvailable(SFML)
 
-file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/include/*.hpp")
-file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
-add_executable (${PROJECT_NAME} ${sources} ${headers})
+
+add_executable (${PROJECT_NAME}
+        src/main.cpp
+        src/pokemon.h
+        src/Camera.h
+        src/Camera.cpp
+        src/ecs/EntityManager.h
+        src/ecs/EntityManager.cpp
+        src/ecs/System.h
+        src/ecs/SysteManager.h
+        src/TypeId.h
+        src/ecs/components.h
+        src/TexturePool.h
+        src/TexturePool.cpp
+        src/util.h
+        src/util.cpp
+        src/ecs/ComponentArray.h
+        src/ecs/ComponentArray.cpp
+        src/ecs/ComponentManager.h
+        src/ecs/ECS.h)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
 
 
