@@ -17,18 +17,18 @@ FetchContent_MakeAvailable(SFML)
 add_executable (${PROJECT_NAME}
         src/main.cpp
         src/pokemon.h
-        src/Camera.h
-        src/Camera.cpp
+        src/window/Camera.h
+        src/window/Camera.cpp
         src/ecs/EntityManager.h
         src/ecs/EntityManager.cpp
         src/ecs/System.h
-        src/ecs/SysteManager.h
+        src/ecs/SystemManager.h
         src/TypeId.h
         src/ecs/components.h
-        src/TexturePool.h
-        src/TexturePool.cpp
-        src/util.h
-        src/util.cpp
+        src/util/TexturePool.h
+        src/util/TexturePool.cpp
+        src/util/util.h
+        src/util/util.cpp
         src/ecs/ComponentArray.h
         src/ecs/ComponentManager.h
         src/ecs/ECS.h
@@ -42,7 +42,11 @@ add_executable (${PROJECT_NAME}
         src/ecs/SystemSprite.cpp
         src/ecs/SystemCollisionBox.cpp
         src/ecs/SystemCollisionBoxStatic.cpp
-        src/ecs/SystemWater.cpp)
+        src/ecs/SystemWater.cpp
+        src/ecs/SystemBezierCurve.cpp
+        src/window/Window.h
+        src/window/Window.cpp
+        src/ecs/SystemBoat.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
 
 

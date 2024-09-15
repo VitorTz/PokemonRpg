@@ -4,7 +4,7 @@
 #include "components.h"
 #include "System.h"
 #include "ECS.h"
-#include "../TexturePool.h"
+#include "../util/TexturePool.h"
 
 float waterTime = 0.0f;
 sf::Sprite waterSprite{};

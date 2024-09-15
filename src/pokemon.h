@@ -43,6 +43,12 @@ namespace pk {
     constexpr float SCREEN_CENTERX{SCREEN_WF / 2.0f};
     constexpr float SCREEN_CENTERY{SCREEN_HF / 2.0f};
 
+    constexpr float WORLD_WIDTH{4096.0f};
+    constexpr float WORLD_HEIGHT{4096.0f};
+    constexpr float WORLD_CENTERX{pk::WORLD_WIDTH / 2.0f};
+    constexpr float WORLD_CENTERY{pk::WORLD_HEIGHT / 2.0f};
+    const static sf::Vector2f WORLD_SIZE(pk::WORLD_WIDTH, pk::WORLD_HEIGHT);
+
     constexpr float TILE_SIZE{16.0f};
 
     constexpr pk::entity_t MAX_ENTITIES{4096};
@@ -85,6 +91,11 @@ namespace pk {
         South,
         West,
         East
+    };
+
+    enum State {
+        Active,
+        Paused
     };
 
 }

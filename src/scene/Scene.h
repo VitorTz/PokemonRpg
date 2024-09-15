@@ -5,8 +5,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 #include "../pokemon.h"
-#include "../TexturePool.h"
-#include "../util.h"
+#include "../util/TexturePool.h"
+#include "../util/util.h"
 #include "../ecs/ECS.h"
 
 

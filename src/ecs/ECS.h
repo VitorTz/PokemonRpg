@@ -6,8 +6,8 @@
 #define ECS_H
 #include "EntityManager.h"
 #include "ComponentManager.h"
-#include "SysteManager.h"
-#include "../Camera.h"
+#include "SystemManager.h"
+#include "../window/Camera.h"
 
 namespace pk {
 

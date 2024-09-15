@@ -5,12 +5,12 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 #include "../pokemon.h"
-#include "../TexturePool.h"
+#include "../util/TexturePool.h"
 
 
 namespace pk {
 
-    constexpr std::size_t NUM_COMPONENTS{5};
+    constexpr std::size_t NUM_COMPONENTS{7};
 
     typedef struct transform {
         sf::Vector2f pos{};
@@ -29,7 +29,9 @@ namespace pk {
         explicit sprite(
             const char* fileName
         ) : sfSprite(pk::gTexturePool.get(fileName)),
-            size(static_cast<sf::Vector2f>(sfSprite.getTexture()->getSize())) { }
+            size(static_cast<sf::Vector2f>(sfSprite.getTexture()->getSize())) {
+            sfSprite.setOrigin(size.x / 2.0f, size.y / 2.0f);
+        }
     } sprite_t;
 
     typedef struct collision_box_static {
@@ -43,6 +45,18 @@ namespace pk {
     typedef struct water {
         bool isCoast{};
     } water_t;
+
+    typedef struct bezier_curve {
+        std::vector<sf::Vector2f> points{};
+        float currentTime{};
+        float maxTime{};
+        bezier_curve() = default;
+        explicit bezier_curve(const float maxTime) : maxTime(maxTime) { }
+    } bezier_curve_t;
+
+    typedef struct boat {
+        pk::State state{pk::State::Paused};
+    } boat_t;
 
 }
 

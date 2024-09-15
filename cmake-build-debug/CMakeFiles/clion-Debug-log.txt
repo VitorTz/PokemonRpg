@@ -2,6 +2,6 @@
 -- libudev stable: 1
 -- Found UDev: /usr/lib/x86_64-linux-gnu/libudev.so
 --    include: /usr/include
--- Configuring done (1.5s)
+-- Configuring done (1.0s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/vitor/git/PokemonRpg/cmake-build-debug

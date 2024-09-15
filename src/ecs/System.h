@@ -60,6 +60,28 @@ namespace pk {
 
     };
 
+    class BoatSystem final : public pk::System {
+
+    private:
+        std::queue<std::vector<sf::Vector2f>> emptyRoutes{};
+        std::vector<std::filesystem::path> boatSprites{};
+        std::unordered_map<pk::entity_t, std::vector<sf::Vector2f>> entityToRoute{};
+
+    public:
+        BoatSystem();
+        void update(float dt) override;
+        void draw(sf::RenderWindow& window, pk::entity_t e) override;
+
+    };
+
+    class BezierCurveSystem final : public pk::System {
+
+    public:
+        void update(float dt) override;
+        void draw(sf::RenderWindow& window, pk::entity_t e) override;
+
+    };
+
 }
 
 #endif //SYSTEM_H

@@ -19,7 +19,7 @@ namespace pk {
 
 
     template<typename T>
-    class ComponentArray : public pk::IComponentArray {
+    class ComponentArray final : public pk::IComponentArray {
 
     private:
         std::array<T, pk::MAX_ENTITIES> arr{};
@@ -57,7 +57,7 @@ namespace pk {
         }
 
         T& at(pk::entity_t e) {
-            assert(this->entityToIndex.find(e) != this->entityToIndex.end());
+            assert(this->entityToIndex.find(e) != this->entityToIndex.end() && "[COMPONENT NOT FOND!]");
             return this->arr[this->entityToIndex[e]];
         }
 
