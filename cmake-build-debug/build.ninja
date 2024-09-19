@@ -193,6 +193,22 @@ build CMakeFiles/PokemonRpg.dir/src/ecs/SystemBoat.cpp.o: CXX_COMPILER__PokemonR
   OBJECT_DIR = CMakeFiles/PokemonRpg.dir
   OBJECT_FILE_DIR = CMakeFiles/PokemonRpg.dir/src/ecs
 
+build CMakeFiles/PokemonRpg.dir/src/ecs/SystemSpriteAnimation.cpp.o: CXX_COMPILER__PokemonRpg_unscanned_Debug /home/vitor/git/PokemonRpg/src/ecs/SystemSpriteAnimation.cpp || cmake_object_order_depends_target_PokemonRpg
+  DEFINES = -DASSETS_PATH=\"/home/vitor/git/PokemonRpg/assets/\" -DSFML_STATIC
+  DEP_FILE = CMakeFiles/PokemonRpg.dir/src/ecs/SystemSpriteAnimation.cpp.o.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -g
+  INCLUDES = -I/home/vitor/git/PokemonRpg/cmake-build-debug/_deps/sfml-src/include
+  OBJECT_DIR = CMakeFiles/PokemonRpg.dir
+  OBJECT_FILE_DIR = CMakeFiles/PokemonRpg.dir/src/ecs
+
+build CMakeFiles/PokemonRpg.dir/src/util/FrameCounter.cpp.o: CXX_COMPILER__PokemonRpg_unscanned_Debug /home/vitor/git/PokemonRpg/src/util/FrameCounter.cpp || cmake_object_order_depends_target_PokemonRpg
+  DEFINES = -DASSETS_PATH=\"/home/vitor/git/PokemonRpg/assets/\" -DSFML_STATIC
+  DEP_FILE = CMakeFiles/PokemonRpg.dir/src/util/FrameCounter.cpp.o.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always -Wall -Wextra -pedantic -g
+  INCLUDES = -I/home/vitor/git/PokemonRpg/cmake-build-debug/_deps/sfml-src/include
+  OBJECT_DIR = CMakeFiles/PokemonRpg.dir
+  OBJECT_FILE_DIR = CMakeFiles/PokemonRpg.dir/src/util
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target PokemonRpg
@@ -201,7 +217,7 @@ build CMakeFiles/PokemonRpg.dir/src/ecs/SystemBoat.cpp.o: CXX_COMPILER__PokemonR
 #############################################
 # Link the executable bin/PokemonRpg
 
-build bin/PokemonRpg: CXX_EXECUTABLE_LINKER__PokemonRpg_Debug CMakeFiles/PokemonRpg.dir/src/main.cpp.o CMakeFiles/PokemonRpg.dir/src/window/Camera.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/EntityManager.cpp.o CMakeFiles/PokemonRpg.dir/src/util/TexturePool.cpp.o CMakeFiles/PokemonRpg.dir/src/util/util.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/SceneManager.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/TestScene1.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/LevelScene.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/LoadingScreen.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/TitleScreen.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemTransform.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemSprite.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemCollisionBox.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemCollisionBoxStatic.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemWater.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemBezierCurve.cpp.o CMakeFiles/PokemonRpg.dir/src/window/Window.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemBoat.cpp.o | _deps/sfml-build/lib/libsfml-graphics-s-d.a _deps/sfml-build/lib/libsfml-window-s-d.a /usr/lib/x86_64-linux-gnu/libX11.so /usr/lib/x86_64-linux-gnu/libXrandr.so /usr/lib/x86_64-linux-gnu/libXcursor.so _deps/sfml-build/lib/libsfml-system-s-d.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libudev.so /usr/lib/x86_64-linux-gnu/libfreetype.so || _deps/sfml-build/lib/libsfml-graphics-s-d.a _deps/sfml-build/lib/libsfml-system-s-d.a _deps/sfml-build/lib/libsfml-window-s-d.a
+build bin/PokemonRpg: CXX_EXECUTABLE_LINKER__PokemonRpg_Debug CMakeFiles/PokemonRpg.dir/src/main.cpp.o CMakeFiles/PokemonRpg.dir/src/window/Camera.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/EntityManager.cpp.o CMakeFiles/PokemonRpg.dir/src/util/TexturePool.cpp.o CMakeFiles/PokemonRpg.dir/src/util/util.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/SceneManager.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/TestScene1.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/LevelScene.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/LoadingScreen.cpp.o CMakeFiles/PokemonRpg.dir/src/scene/TitleScreen.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemTransform.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemSprite.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemCollisionBox.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemCollisionBoxStatic.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemWater.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemBezierCurve.cpp.o CMakeFiles/PokemonRpg.dir/src/window/Window.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemBoat.cpp.o CMakeFiles/PokemonRpg.dir/src/ecs/SystemSpriteAnimation.cpp.o CMakeFiles/PokemonRpg.dir/src/util/FrameCounter.cpp.o | _deps/sfml-build/lib/libsfml-graphics-s-d.a _deps/sfml-build/lib/libsfml-window-s-d.a /usr/lib/x86_64-linux-gnu/libX11.so /usr/lib/x86_64-linux-gnu/libXrandr.so /usr/lib/x86_64-linux-gnu/libXcursor.so _deps/sfml-build/lib/libsfml-system-s-d.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libudev.so /usr/lib/x86_64-linux-gnu/libfreetype.so || _deps/sfml-build/lib/libsfml-graphics-s-d.a _deps/sfml-build/lib/libsfml-system-s-d.a _deps/sfml-build/lib/libsfml-window-s-d.a
   FLAGS = -g
   LINK_LIBRARIES = _deps/sfml-build/lib/libsfml-graphics-s-d.a  _deps/sfml-build/lib/libsfml-window-s-d.a  /usr/lib/x86_64-linux-gnu/libX11.so  /usr/lib/x86_64-linux-gnu/libXrandr.so  /usr/lib/x86_64-linux-gnu/libXcursor.so  _deps/sfml-build/lib/libsfml-system-s-d.a  -lpthread  -lrt  /usr/lib/x86_64-linux-gnu/libGL.so  /usr/lib/x86_64-linux-gnu/libudev.so  -ldl  /usr/lib/x86_64-linux-gnu/libfreetype.so
   OBJECT_DIR = CMakeFiles/PokemonRpg.dir

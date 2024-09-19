@@ -46,7 +46,10 @@ add_executable (${PROJECT_NAME}
         src/ecs/SystemBezierCurve.cpp
         src/window/Window.h
         src/window/Window.cpp
-        src/ecs/SystemBoat.cpp)
+        src/ecs/SystemBoat.cpp
+        src/ecs/SystemSpriteAnimation.cpp
+        src/util/FrameCounter.h
+        src/util/FrameCounter.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
 
 

@@ -696,3 +696,37 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/vitor/Programs/Clion/clion-2024.2.1/bin/cmake/linux/x64/share/cmake-3.29/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "/home/vitor/Programs/Clion/clion-2024.2.1/bin/cmake/linux/x64/share/cmake-3.29/Modules/FindX11.cmake:750 (check_library_exists)"
+      - "cmake-build-debug/_deps/sfml-src/cmake/Macros.cmake:383 (find_package)"
+      - "cmake-build-debug/_deps/sfml-src/src/SFML/Window/CMakeLists.txt:294 (sfml_find_package)"
+    checks:
+      - "Looking for IceConnectionNumber in ICE"
+    directories:
+      source: "/home/vitor/git/PokemonRpg/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-EsQfNI"
+      binary: "/home/vitor/git/PokemonRpg/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-EsQfNI"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/vitor/git/PokemonRpg/cmake-build-debug/_deps/sfml-src/cmake/Modules/;/home/vitor/git/PokemonRpg/cmake-build-debug/_deps/sfml-src/cmake/Modules/"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "13.0"
+      CMAKE_USER_MAKE_RULES_OVERRIDE: "/home/vitor/git/PokemonRpg/cmake-build-debug/_deps/sfml-src/cmake/CompilerOptionsOverride.cmake"
+    buildResult:
+      variable: "CMAKE_LIB_ICE_HAS_ICECONNECTIONNUMBER"
+      cached: true
+      stdout: |
+        Change Dir: '/home/vitor/git/PokemonRpg/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-EsQfNI'
+        
+        Run Build Command(s): /home/vitor/Programs/Clion/clion-2024.2.1/bin/ninja/linux/x64/ninja -v cmTC_2e76c
+        [1/2] /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber -fdiagnostics-color=always -o CMakeFiles/cmTC_2e76c.dir/CheckFunctionExists.c.o -c /home/vitor/git/PokemonRpg/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-EsQfNI/CheckFunctionExists.c
+        [2/2] : && /usr/bin/cc -DCHECK_FUNCTION_EXISTS=IceConnectionNumber  CMakeFiles/cmTC_2e76c.dir/CheckFunctionExists.c.o -o cmTC_2e76c  -lICE && :
+        
+      exitCode: 0
+...

@@ -46,6 +46,10 @@ namespace pk {
 
     class WaterSystem final : public pk::System {
 
+    private:
+        pk::FrameCounter counter{pk::ANIMATION_TIME_SLOW, 2};
+        sf::Sprite waterSprite{};
+
     public:
         void update(float dt) override;
         void draw(sf::RenderWindow& window, pk::entity_t e) override;
@@ -64,8 +68,10 @@ namespace pk {
 
     private:
         std::queue<std::vector<sf::Vector2f>> emptyRoutes{};
-        std::vector<std::filesystem::path> boatSprites{};
+        std::vector<sf::Sprite> boatSprites{};
         std::unordered_map<pk::entity_t, std::vector<sf::Vector2f>> entityToRoute{};
+        float currentTime{};
+        float nextDepartureTime{};
 
     public:
         BoatSystem();
@@ -75,6 +81,14 @@ namespace pk {
     };
 
     class BezierCurveSystem final : public pk::System {
+
+    public:
+        void update(float dt) override;
+        void draw(sf::RenderWindow& window, pk::entity_t e) override;
+
+    };
+
+    class SpriteAnimationSystem final : public pk::System {
 
     public:
         void update(float dt) override;

@@ -25,6 +25,7 @@
 #include <cassert>
 #include <thread>
 #include <random>
+#include "util/FrameCounter.h"
 
 
 namespace pk {
@@ -69,10 +70,11 @@ namespace pk {
         TestScene1Id
     };
 
-    constexpr float ANIMATION_TIME_SLOW{0.30f};
-    constexpr float ANIMATION_TIME_NORMAL{0.20f};
-    constexpr float ANIMATION_TIME_FAST{0.10f};
-    constexpr float ANIMATION_WATER_TIME{pk::ANIMATION_TIME_SLOW};
+    constexpr std::uint32_t ANIMATION_TIME_SLOW{60 / 4};
+    constexpr std::uint32_t ANIMATION_TIME_NORMAL{60 / 8};
+    constexpr std::uint32_t ANIMATION_TIME_FAST{60 / 12};
+
+    constexpr std::uint32_t ANIMATION_WATER_TIME{pk::ANIMATION_TIME_SLOW};
     constexpr pk::SceneId MAIN_SCENE{pk::TestScene1Id};
 
     const static sf::Vector2f WATER_POS_COAST{0.0f, 3456.0f};

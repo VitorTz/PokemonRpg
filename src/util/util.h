@@ -31,7 +31,17 @@ namespace pk {
     }
 
     void addSpriteToEntity(pk::entity_t e, const char* fileName);
+    void addSpriteAnimation(
+        pk::entity_t e,
+        const char* fileName,
+        const sf::Vector2f& spriteSize,
+        std::uint32_t animationSpeed,
+        std::uint32_t rows,
+        std::uint32_t cols
+    );
+
     void changeEntitySprite(pk::entity_t e, const char* fileName);
+    void changeEntitySprite(pk::entity_t e, const sf::Sprite& sprite);
 
     void addCollisionBoxStaticToEntity(pk::entity_t e);
     void createCollisionBoxStatic(pk::entity_t e, const sf::Vector2f& pos, const sf::Vector2f& size);

@@ -41,12 +41,36 @@ void pk::addSpriteToEntity(const pk::entity_t e, const char *fileName) {
 }
 
 
+void pk::addSpriteAnimation(
+    const pk::entity_t e,
+    const char *spritePath,
+    const sf::Vector2f &spriteSize,
+    const std::uint32_t animationSpeed,
+    const std::uint32_t rows,
+    const std::uint32_t cols
+) {
+    pk::addSpriteToEntity(e, spritePath);
+    pk::transform_t& transform = pk::gEcs.getTransform(e);
+    transform.size = spriteSize;
+    pk::gEcs.insertComponent<pk::sprite_animation_t>(e, pk::sprite_animation_t{spriteSize, animationSpeed, rows, cols});
+}
+
+
 void pk::changeEntitySprite(const pk::entity_t e, const char *fileName) {
     pk::transform_t& t = pk::gEcs.getTransform(e);
     pk::sprite_t& s = pk::gEcs.getComponent<pk::sprite_t>(e);
     s = pk::sprite_t{fileName};
     t.size = s.size;
 }
+
+void pk::changeEntitySprite(const pk::entity_t e, const sf::Sprite &sprite) {
+    pk::transform_t& t = pk::gEcs.getTransform(e);
+    pk::sprite_t& s = pk::gEcs.getComponent<pk::sprite_t>(e);
+    s.sfSprite = sprite;
+    s.size = static_cast<sf::Vector2f>(sprite.getTexture()->getSize());
+    t.size = s.size;
+}
+
 
 
 std::vector<std::filesystem::path> pk::getFilesFromDir(const char *dir) {
