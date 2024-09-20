@@ -49,7 +49,15 @@ add_executable (${PROJECT_NAME}
         src/ecs/SystemBoat.cpp
         src/ecs/SystemSpriteAnimation.cpp
         src/util/FrameCounter.h
-        src/util/FrameCounter.cpp)
+        src/util/FrameCounter.cpp
+        src/ecs/player.h
+        src/ecs/player.cpp
+        src/ecs/SystemPlayer.cpp
+        src/util/Debug.h
+        src/util/Debug.cpp
+        src/util/FontPool.h
+        src/util/FontPool.cpp
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
 
 

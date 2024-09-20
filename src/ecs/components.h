@@ -10,7 +10,8 @@
 
 namespace pk {
 
-    constexpr std::size_t NUM_COMPONENTS{8};
+    constexpr std::size_t NUM_COMPONENTS{9};
+    constexpr std::size_t NUM_VALID_COMPONENTS{8};
 
     typedef struct transform {
         sf::Vector2f pos{};
@@ -61,16 +62,29 @@ namespace pk {
         std::uint32_t cols{};
         sprite_animation() = default;
         explicit sprite_animation(
-            const pk::asset_t& asset,
-            const pk::animation_speed_t animationSpeed
-        ) : sprite(pk::gTexturePool.get(asset.path.c_str())),
-            counter(animationSpeed, asset.rows * asset.cols),
-            cols(asset.cols) {
-                this->sprite.setOrigin(static_cast<float>(asset.spriteWidth) / 2.0f, static_cast<float>(asset.spriteHeight) / 2.0f);
-                this->rect.width = static_cast<int>(asset.spriteWidth);
-                this->rect.height = static_cast<int>(asset.spriteHeight);
+            const char* filePath,
+            const float spriteWidth,
+            const float spriteHeight,
+            const std::uint32_t rows,
+            const std::uint32_t cols,
+            const pk::animation_speed_t speed
+        ) : sprite(pk::gTexturePool.get(filePath)),
+            counter(speed, rows * cols),
+            cols(cols) {
+                this->sprite.setOrigin(spriteWidth / 2.0f, spriteHeight / 2.0f);
+                this->rect.width = spriteWidth;
+                this->rect.height = spriteHeight;
             }
     } sprite_animation_t;
+
+    typedef struct player {
+        pk::entity_t playerEntity{};
+        pk::entity_t shadowEntity{};
+        sf::FloatRect collideRect{};
+        sf::FloatRect actionRect{};
+        char direction{'d'}; // d: down, u: up, r: right, l: left
+        char action{'i'}; // i: idle, a: attack
+    } player_t;
 
     typedef struct boat {
         pk::State state{pk::State::Paused};

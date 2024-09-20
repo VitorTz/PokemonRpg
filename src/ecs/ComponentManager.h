@@ -28,7 +28,7 @@ namespace pk {
             this->componentMap.emplace(pk::gTypeId.get<pk::bezier_curve_t>(), std::make_unique<pk::ComponentArray<pk::bezier_curve_t>>());
             this->componentMap.emplace(pk::gTypeId.get<pk::boat_t>(), std::make_unique<pk::ComponentArray<pk::boat_t>>());
             this->componentMap.emplace(pk::gTypeId.get<pk::sprite_animation_t>(), std::make_unique<pk::ComponentArray<pk::sprite_animation_t>>());
-            assert(this->componentMap.size() == pk::NUM_COMPONENTS);
+            assert(this->componentMap.size() == pk::NUM_VALID_COMPONENTS);
             this->transformArray = dynamic_cast<pk::ComponentArray<pk::transform_t>*>(this->componentMap[pk::gTypeId.get<pk::transform_t>()].get());
         }
 

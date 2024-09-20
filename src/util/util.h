@@ -5,6 +5,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 #include "../pokemon.h"
+#include "../ecs/components.h"
 
 namespace pk {
 
@@ -69,7 +70,15 @@ namespace pk {
          */
         void addSpriteToEntity(pk::entity_t e, const char* fileName);
 
-        void addSpriteAnimation(pk::entity_t e, pk::AssetId assetId, pk::animation_speed_t animationSpeed);
+        void addSpriteAnimation(
+            pk::entity_t e,
+            const char* filePath,
+            float spriteWidth,
+            float spriteHeight,
+            std::uint32_t rows,
+            std::uint32_t cols,
+            pk::animation_speed_t speed
+        );
 
         /**
         * Muda a texture do component sprite_t da entidade e
@@ -86,8 +95,8 @@ namespace pk {
     // math
         unsigned long hash(const char* s);
         void normalizeVec(sf::Vector2f* v);
-        sf::Vector2f getMoveDirection(sf::Keyboard::Key left, sf::Keyboard::Key right, sf::Keyboard::Key top, sf::Keyboard::Key bottom);
-        sf::Vector2f getMoveDirection();
+        pk::movement_direction_t getMoveDirection(sf::Keyboard::Key left, sf::Keyboard::Key right, sf::Keyboard::Key top, sf::Keyboard::Key bottom);
+        pk::movement_direction_t getMoveDirection();
         float easeIn(float t);
         float getTimePercentage(float currentTime, float maxTime);
         sf::Vector2f lerp(const sf::Vector2f& start, const sf::Vector2f& end, float t);
@@ -105,6 +114,11 @@ namespace pk {
          */
         sf::Vector2f vector2Add(const sf::Vector2f& v1, const sf::Vector2f& v2);
         int binomialCoefficient(int n, int k);
+
+        void drawBorder(float x, float y, float width, float height, const sf::Color& color, sf::RenderWindow& window);
+        void drawTransform(const pk::transform_t& transform, const sf::Color& color, sf::RenderWindow& window);
+        void drawFloatRect(const sf::FloatRect& rect, const sf::Color& color, sf::RenderWindow& window);
+        void drawFloatRect(const sf::IntRect& rect, const sf::Color& color, sf::RenderWindow& window);
 
 
 

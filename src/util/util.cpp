@@ -48,12 +48,15 @@ void pk::addSpriteToEntity(const pk::entity_t e, const char *fileName) {
 
 void pk::addSpriteAnimation(
     const pk::entity_t e,
-    const pk::AssetId assetId,
-    const pk::animation_speed_t animationSpeed
+    const char* filePath,
+    const float spriteWidth,
+    const float spriteHeight,
+    const std::uint32_t rows,
+    const std::uint32_t cols,
+    const pk::animation_speed_t speed
 ) {
-    const pk::asset_t& asset = pk::ASSETS_MAP.at(assetId);
-    pk::gEcs.insertComponent<pk::sprite_animation_t>(e, pk::sprite_animation_t{asset, animationSpeed});
-    pk::gEcs.getTransform(e).size = { static_cast<float>(asset.spriteWidth), static_cast<float>(asset.spriteHeight)};
+    pk::gEcs.insertComponent<pk::sprite_animation_t>(e, pk::sprite_animation_t{filePath, spriteWidth, spriteHeight, rows, cols, speed});
+    pk::gEcs.getTransform(e).size = { spriteWidth, spriteHeight};
 }
 
 
@@ -125,42 +128,58 @@ void pk::normalizeVec(sf::Vector2f *v) {
 }
 
 
-sf::Vector2f pk::getMoveDirection(
+pk::movement_direction_t pk::getMoveDirection(
     const sf::Keyboard::Key left,
     const sf::Keyboard::Key right,
     const sf::Keyboard::Key top,
     const sf::Keyboard::Key bottom
 ) {
-    sf::Vector2f d{0.0f, 0.0f};
+    pk::movement_direction_t r{};
     if (sf::Keyboard::isKeyPressed(top)) {
-        d.y = -1.0f;
+        r.direction.y = -1.0f;
+        r.directionChar = 'u';
+        r.action = 'm';
     } else if (sf::Keyboard::isKeyPressed(bottom)) {
-        d.y = 1.0f;
+        r.direction.y = 1.0f;
+        r.directionChar = 'd';
+        r.action = 'm';
     }
     if (sf::Keyboard::isKeyPressed(left)) {
-        d.x = -1.0f;
+        r.direction.x = -1.0f;
+        r.directionChar = 'l';
+        r.action = 'm';
     } else if (sf::Keyboard::isKeyPressed(right)) {
-        d.x = 1.0f;
+        r.direction.x = 1.0f;
+        r.directionChar = 'r';
+        r.action = 'm';
     }
-    pk::normalizeVec(&d);
-    return d;
+    pk::normalizeVec(&r.direction);
+    return r;
 }
 
 
-sf::Vector2f pk::getMoveDirection() {
-    sf::Vector2f d{0.0f, 0.0f};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        d.y = -1.0f;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        d.y = 1.0f;
+pk::movement_direction_t pk::getMoveDirection() {
+    pk::movement_direction_t r{};
+    if (sf::Keyboard::isKeyPressed(pk::KEY_UP)) {
+        r.direction.y = -1.0f;
+        r.directionChar = 'u';
+        r.action = 'm';
+    } else if (sf::Keyboard::isKeyPressed(pk::KEY_DOWN)) {
+        r.direction.y = 1.0f;
+        r.directionChar = 'd';
+        r.action = 'm';
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        d.x = -1.0f;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        d.x = 1.0f;
+    if (sf::Keyboard::isKeyPressed(pk::KEY_LEFT)) {
+        r.direction.x = -1.0f;
+        r.directionChar = 'l';
+        r.action = 'm';
+    } else if (sf::Keyboard::isKeyPressed(pk::KEY_RIGHT)) {
+        r.direction.x = 1.0f;
+        r.directionChar = 'r';
+        r.action = 'm';
     }
-    pk::normalizeVec(&d);
-    return d;
+    pk::normalizeVec(&r.direction);
+    return r;
 }
 
 
@@ -214,4 +233,44 @@ int pk::binomialCoefficient(const int n, const int k) {
         res = res * (n - k + i) / i;
     return static_cast<int>(res + 0.01);
 }
+
+
+void pk::drawBorder(
+    const float x,
+    const float y,
+    const float width,
+    const float height,
+    const sf::Color &color,
+    sf::RenderWindow &window
+) {
+    sf::RectangleShape rect(sf::Vector2f(width, height));
+    rect.setFillColor(sf::Color::Transparent);
+    rect.setOutlineColor(color);
+    rect.setOutlineThickness(2.0f);
+    rect.setPosition(x, y);
+    window.draw(rect);
+}
+
+
+void pk::drawTransform(const pk::transform_t &transform, const sf::Color &color, sf::RenderWindow &window) {
+    sf::RectangleShape rect(transform.size);
+    rect.setPosition(transform.pos);
+    rect.setFillColor(sf::Color::Transparent);
+    rect.setOutlineColor(color);
+    rect.setOutlineThickness(2.0f);
+    window.draw(rect);
+}
+
+
+void pk::drawFloatRect(const sf::FloatRect &rect, const sf::Color &color, sf::RenderWindow &window) {
+    sf::RectangleShape r(sf::Vector2f(rect.width, rect.height));
+    r.setPosition(rect.left, rect.top);
+    r.setFillColor(sf::Color::Transparent);
+    r.setOutlineColor(color);
+    r.setOutlineThickness(2.0f);
+    window.draw(r);
+}
+
+
+
 

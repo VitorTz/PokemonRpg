@@ -31,6 +31,7 @@ namespace pk {
             this->systemMap.emplace(pk::gTypeId.get<pk::boat_t>(), std::make_unique<pk::BoatSystem>());
             this->systemMap.emplace(pk::gTypeId.get<pk::bezier_curve_t>(), std::make_unique<pk::BezierCurveSystem>());
             this->systemMap.emplace(pk::gTypeId.get<pk::sprite_animation_t>(), std::make_unique<pk::SpriteAnimationSystem>());
+            this->systemMap.emplace(pk::gTypeId.get<pk::player_t>(), std::make_unique<pk::PlayerSystem>());
             assert(this->systemMap.size() == pk::NUM_COMPONENTS);
 
             // this->entityToSystem Keeps track of systems for each entity
@@ -46,6 +47,7 @@ namespace pk {
             this->systemOrder.push_back(pk::gTypeId.get<pk::boat_t>());
             this->systemOrder.push_back(pk::gTypeId.get<pk::bezier_curve_t>());
             this->systemOrder.push_back(pk::gTypeId.get<pk::sprite_animation_t>());
+            this->systemOrder.push_back(pk::gTypeId.get<pk::player_t>());
         }
 
         /**

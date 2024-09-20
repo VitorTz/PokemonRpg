@@ -24,6 +24,7 @@ namespace pk {
         Camera();
         void insert(pk::entity_t e);
         void erase(pk::entity_t e);
+        void setView(sf::RenderWindow& window) const;
         void draw(sf::RenderWindow& window, pk::SystemManager* system);
         void clear();
         void setCenter(const sf::Vector2f& center);

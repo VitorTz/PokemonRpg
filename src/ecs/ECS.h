@@ -57,6 +57,16 @@ namespace pk {
             return this->component->at<T>(e);
         }
 
+        template<typename T>
+        void insertSystem(const pk::entity_t e) {
+            this->system->insert<T>(e);
+        }
+
+        template<typename T>
+        void rmvFromSystem(const pk::entity_t e) {
+            this->system->erase<T>(e);
+        }
+
         std::pair<bool, pk::entity_t> checkCollision(const sf::FloatRect& rect) const {
             std::pair<bool, pk::entity_t> r{false, 0};
             const std::unordered_set<pk::entity_t>& ent1 = this->system->getEntitiesFromSystem<pk::collision_box_t>();

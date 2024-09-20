@@ -96,6 +96,14 @@ namespace pk {
 
     };
 
+    class PlayerSystem final : public pk::System {
+
+    public:
+        void update(float dt) override;
+        void draw(sf::RenderWindow& window, pk::entity_t e) override;
+
+    };
+
 }
 
 #endif //SYSTEM_H

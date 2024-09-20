@@ -25,12 +25,18 @@
 #include <cassert>
 #include <thread>
 #include <random>
+#include <X11/X.h>
+
 #include "util/FrameCounter.h"
 
 #define GRAPHICS_PATH ASSETS_PATH "graphics/"
 #define CHARACTERS_PATH ASSETS_PATH "graphics/characters/"
+#define FONTS_PATH ASSETS_PATH "font/Lato/"
 
 namespace pk {
+
+    // debug
+        constexpr bool DEBUG_MODE{true};
 
     // ECS
         typedef std::uint32_t entity_t;
@@ -42,6 +48,10 @@ namespace pk {
     // Game
         typedef std::vector<std::pair<float, pk::entity_t>> OrderedEntityVector;
         typedef std::map<pk::zindex_t, pk::OrderedEntityVector> CameraMap;
+        constexpr sf::Keyboard::Key KEY_LEFT{sf::Keyboard::A};
+        constexpr sf::Keyboard::Key KEY_RIGHT{sf::Keyboard::D};
+        constexpr sf::Keyboard::Key KEY_UP{sf::Keyboard::W};
+        constexpr sf::Keyboard::Key KEY_DOWN{sf::Keyboard::S};
 
     // Window
         constexpr unsigned int SCREEN_W{1280};
@@ -86,10 +96,23 @@ namespace pk {
         constexpr pk::SceneId MAIN_SCENE{pk::TestScene1Id};
 
     // Player
-        constexpr std::uint32_t PLAYER_WIDTH{64};
-        constexpr std::uint32_t PLAYER_HEIGHT{64};
+        constexpr float PLAYER_WIDTH{64.0f};
+        constexpr float PLAYER_HEIGHT{64.0f};
+        constexpr float PLAYER_HALF_WIDTH{pk::PLAYER_WIDTH / 2.0f};
+        constexpr float PLAYER_HALF_HEIGHT{pk::PLAYER_HEIGHT / 2.0f};
         constexpr float PLAYER_SPEED{150.0f};
+        constexpr pk::zindex_t PLAYER_ZINDEX{3};
+        constexpr pk::zindex_t PLAYER_SHADOW_ZINDEX{2};
         constexpr pk::animation_speed_t PLAYER_ANIMATION_SPEED{pk::ANIMATION_SPEED_NORMAL};
+        constexpr float PLAYER_COLLISION_WIDTH{pk::PLAYER_WIDTH / 2.5f};
+        constexpr float PLAYER_HALF_COLLISION_WIDTH{pk::PLAYER_COLLISION_WIDTH / 2.0f};
+        constexpr float PLAYER_COLLISION_HEIGHT{pk::PLAYER_WIDTH / 2.5f};
+        constexpr float PLAYER_HALF_COLLISION_HEIGHT{pk::PLAYER_COLLISION_HEIGHT / 2.0f};
+
+        constexpr float PLAYER_ACTION_BOX_SIZE_Y[2] = {30.0f, 40.0f};
+        constexpr float PLAYER_ACTION_BOX_SIZE_X[2] = {30.0f, 50.0f};
+        constexpr float PLAYER_ACTION_BOX_X_OFFSET{35.0f};
+        constexpr float PLAYER_ACTION_BOX_Y_OFFSET{30.0f};
 
     // Water
         const static sf::Vector2f WATER_POS_COAST{0.0f, 3456.0f};
@@ -109,32 +132,18 @@ namespace pk {
             Paused
         };
 
-    // Assets
-        enum AssetId {
-            PlayerAssetId
+        enum FontId {
+            Light,
+            Regular,
+            Bold
         };
-        typedef struct asset {
-            pk::AssetId id{};
-            std::string path{};
-            std::uint8_t rows{};
-            std::uint8_t cols{};
-            std::uint32_t spriteWidth{};
-            std::uint32_t spriteHeight{};
-        } asset_t;
 
-        const static std::unordered_map<pk::AssetId, asset_t> ASSETS_MAP = {
-            {
-                PlayerAssetId,
-                {
-                    PlayerAssetId,
-                    CHARACTERS_PATH "player.png",
-                    4,
-                    4,
-                    pk::PLAYER_WIDTH,
-                    pk::PLAYER_HEIGHT
-                }
-            }
-        };
+        typedef struct movement_direction {
+            sf::Vector2f direction{};
+            char directionChar{'d'};
+            char action{'i'};
+        } movement_direction_t;;
+
 
 }
 

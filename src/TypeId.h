@@ -24,6 +24,7 @@ namespace pk {
             this->typeMap.emplace(typeid(pk::boat_t).name(), this->typeMap.size());
             this->typeMap.emplace(typeid(pk::bezier_curve_t).name(), this->typeMap.size());
             this->typeMap.emplace(typeid(pk::sprite_animation_t).name(), this->typeMap.size());
+            this->typeMap.emplace(typeid(pk::player_t).name(), this->typeMap.size());
             assert(this->typeMap.size() == pk::NUM_COMPONENTS);
         }
 

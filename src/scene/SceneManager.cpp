@@ -2,6 +2,7 @@
 // Created by vitor on 9/14/24.
 //
 #include "Scene.h"
+#include "../util/Debug.h"
 
 
 void pk::SceneManager::init() {
@@ -59,6 +60,9 @@ void pk::SceneManager::render(sf::RenderWindow &window) {
         this->loadingScreen->render(window);
     } else {
         this->scene->render(window);
+        if (pk::DEBUG_MODE) {
+            pk::gDebug.draw(window);
+        }
     }
 }
 

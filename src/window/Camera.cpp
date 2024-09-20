@@ -84,8 +84,13 @@ void pk::Camera::addZoom(const float z) {
 }
 
 
-void pk::Camera::draw(sf::RenderWindow &window, pk::SystemManager *system) {
+void pk::Camera::setView(sf::RenderWindow &window) const {
     window.setView(this->view);
+}
+
+
+void pk::Camera::draw(sf::RenderWindow &window, pk::SystemManager *system) {
+    this->setView(window);
     for (auto& pair : this->cameraMap) {
         for (std::pair<float, pk::entity_t>& pair1 : pair.second) {
             const pk::transform_t& t = pk::gEcs.getTransform(pair1.second);

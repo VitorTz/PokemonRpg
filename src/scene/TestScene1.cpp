@@ -2,10 +2,8 @@
 // Created by vitor on 9/14/24.
 //
 #include "Scene.h"
+#include "../ecs/player.h"
 
-
-sf::Vector2f center{pk::WORLD_CENTERX, pk::WORLD_CENTERY};
-const float speed = 1050.0f;
 
 pk::TestScene1::TestScene1() {
     pk::entity_t e{};
@@ -36,20 +34,14 @@ pk::TestScene1::TestScene1() {
         pk::gEcs.insertComponent<pk::sprite_t>(e, pk::sprite_t{});
         pk::gEcs.insertComponent<pk::bezier_curve_t>(e, pk::bezier_curve_t{});
 
-    // Sprite Animation
-        e = pk::gEcs.entityCreate(2, true);
-        pk::addSpriteAnimation(e, pk::AssetId::PlayerAssetId, pk::PLAYER_ANIMATION_SPEED);
-        pk::gEcs.getTransform(e).pos = {pk::WORLD_CENTERX, pk::WORLD_CENTERY};
-
+    // Player
+        pk::playerCreate();
 }
 
 
 void pk::TestScene1::update(const float dt) {
     pk::gEcs.update(dt);
-    const sf::Vector2f d = pk::getMoveDirection();
-    center.x += d.x * dt * speed;
-    center.y += d.y * dt * speed;
-    pk::gCamera.setCenter(center);
+    pk::gCamera.setCenter(pk::playerCenter());
 }
 
 

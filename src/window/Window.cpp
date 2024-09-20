@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "../scene/Scene.h"
 #include "../ecs/ECS.h"
+#include "../util/FontPool.h"
 #include "Camera.h"
 
 
@@ -56,6 +57,7 @@ void pk::Window::render() {
 
 void pk::Window::close() {
     pk::gTexturePool.clear();
+    pk::gFontPool.clear();
 }
 
 
