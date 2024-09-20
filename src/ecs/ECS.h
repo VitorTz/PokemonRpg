@@ -4,8 +4,8 @@
 
 #ifndef ECS_H
 #define ECS_H
-#include "EntityManager.h"
 #include "ComponentManager.h"
+#include "EntityManager.h"
 #include "SystemManager.h"
 #include "../window/Camera.h"
 

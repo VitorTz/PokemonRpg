@@ -25,8 +25,6 @@
 #include <cassert>
 #include <thread>
 #include <random>
-#include <X11/X.h>
-
 #include "util/FrameCounter.h"
 
 #define GRAPHICS_PATH ASSETS_PATH "graphics/"

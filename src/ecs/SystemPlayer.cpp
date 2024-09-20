@@ -29,7 +29,7 @@ void pk::PlayerSystem::update(const float dt) {
     switch (pk::gPlayer.direction) {
         case 'u':
             pk::gPlayer.actionRect.left = playerTransform.pos.x - pk::PLAYER_ACTION_BOX_SIZE_Y[0] / 2.0f;
-            pk::gPlayer.actionRect.top -= pk::PLAYER_ACTION_BOX_Y_OFFSET + 30.0f;   
+            pk::gPlayer.actionRect.top -= pk::PLAYER_ACTION_BOX_Y_OFFSET + 30.0f;
             pk::gPlayer.actionRect.width = pk::PLAYER_ACTION_BOX_SIZE_Y[0];
             pk::gPlayer.actionRect.height = pk::PLAYER_ACTION_BOX_SIZE_Y[1] + 30.0f;
             break;

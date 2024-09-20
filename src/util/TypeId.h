@@ -4,8 +4,8 @@
 
 #ifndef TYPEID_H
 #define TYPEID_H
-#include "pokemon.h"
-#include "ecs/components.h"
+#include "../pokemon.h"
+#include "../ecs/components.h"
 
 namespace pk {
 

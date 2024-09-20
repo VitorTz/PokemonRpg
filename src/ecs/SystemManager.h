@@ -4,10 +4,10 @@
 
 #ifndef SYSTEMANAGER_H
 #define SYSTEMANAGER_H
-#include "../pokemon.h"
-#include "System.h"
-#include "../TypeId.h"
 #include "components.h"
+#include "System.h"
+#include "../pokemon.h"
+#include "../util/TypeId.h"
 
 
 namespace pk {

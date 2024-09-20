@@ -4,10 +4,10 @@
 
 #ifndef COMPONENTMANAGER_H
 #define COMPONENTMANAGER_H
-#include "../pokemon.h"
-#include "../TypeId.h"
-#include "components.h"
 #include "ComponentArray.h"
+#include "components.h"
+#include "../pokemon.h"
+#include "../util/TypeId.h"
 
 
 namespace pk {

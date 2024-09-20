@@ -23,7 +23,7 @@ add_executable (${PROJECT_NAME}
         src/ecs/EntityManager.cpp
         src/ecs/System.h
         src/ecs/SystemManager.h
-        src/TypeId.h
+        src/util/TypeId.h
         src/ecs/components.h
         src/util/TexturePool.h
         src/util/TexturePool.cpp
