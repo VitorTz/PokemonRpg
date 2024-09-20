@@ -30,6 +30,11 @@ float pk::randfloat(const float start, const float end) {
     return dist(rng);
 }
 
+double pk::randDouble(const double start, const double end) {
+    std::uniform_real_distribution<double> dist(start, end);
+    return dist(rng);
+}
+
 
 void pk::addSpriteToEntity(const pk::entity_t e, const char *fileName) {
     pk::gEcs.insertComponent<pk::sprite_t>(e, pk::sprite_t{fileName});
@@ -43,16 +48,12 @@ void pk::addSpriteToEntity(const pk::entity_t e, const char *fileName) {
 
 void pk::addSpriteAnimation(
     const pk::entity_t e,
-    const char *spritePath,
-    const sf::Vector2f &spriteSize,
-    const std::uint32_t animationSpeed,
-    const std::uint32_t rows,
-    const std::uint32_t cols
+    const pk::AssetId assetId,
+    const pk::animation_speed_t animationSpeed
 ) {
-    pk::addSpriteToEntity(e, spritePath);
-    pk::transform_t& transform = pk::gEcs.getTransform(e);
-    transform.size = spriteSize;
-    pk::gEcs.insertComponent<pk::sprite_animation_t>(e, pk::sprite_animation_t{spriteSize, animationSpeed, rows, cols});
+    const pk::asset_t& asset = pk::ASSETS_MAP.at(assetId);
+    pk::gEcs.insertComponent<pk::sprite_animation_t>(e, pk::sprite_animation_t{asset, animationSpeed});
+    pk::gEcs.getTransform(e).size = { static_cast<float>(asset.spriteWidth), static_cast<float>(asset.spriteHeight)};
 }
 
 

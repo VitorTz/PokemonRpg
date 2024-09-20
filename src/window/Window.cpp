@@ -35,9 +35,6 @@ void pk::Window::handleEvents(const float dt) {
             case sf::Event::Closed:
                 this->window.close();
                 break;
-            case sf::Event::MouseWheelMoved:
-                pk::gCamera.addZoom(dt * static_cast<float>(e.mouseWheel.delta));
-                break;
             default:
                 break;
         }

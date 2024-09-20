@@ -7,11 +7,11 @@
 
 pk::Camera::Camera() {
     this->view.setSize(pk::SCREEN_WF, pk::SCREEN_HF);
-    this->view.setCenter(sf::Vector2f(0.0f, 0.0f));
+    this->view.setCenter(pk::WORLD_CENTERX, pk::WORLD_CENTERY);
     this->cameraRect.width = pk::SCREEN_WF;
     this->cameraRect.height = pk::SCREEN_HF;
-    this->cameraRect.left = -pk::SCREEN_WF / 2.0f;
-    this->cameraRect.top = -pk::SCREEN_HF / 2.0f;
+    this->cameraRect.left = pk::WORLD_CENTERX - pk::SCREEN_CENTERX;
+    this->cameraRect.top = pk::WORLD_CENTERY - pk::SCREEN_CENTERY;
     this->view.zoom(this->zoom);
     for (pk::zindex_t z = pk::CAMERA_MIN_ZINDEX; z <= pk::CAMERA_MAX_ZINDEX; z++) {
         this->cameraMap[z].reserve(pk::MAX_ENTITIES);
@@ -58,16 +58,15 @@ std::size_t pk::Camera::size() const {
 
 
 void pk::Camera::setCenter(const float x, const float y) {
-    this->view.setCenter(x, y);
-    this->cameraRect.left = x - pk::SCREEN_WF / 2.0f;
-    this->cameraRect.top = y - pk::SCREEN_HF / 2.0f;
+    this->view.setCenter(
+        std::clamp(x, pk::SCREEN_CENTERX, pk::WORLD_WIDTH - pk::SCREEN_CENTERX),
+        std::clamp(y, pk::SCREEN_CENTERY, pk::WORLD_HEIGHT - pk::SCREEN_CENTERY)
+    );
 }
 
 
 void pk::Camera::setCenter(const sf::Vector2f& center) {
-    this->view.setCenter(center);
-    this->cameraRect.left = center.x - pk::SCREEN_WF / 2.0f;
-    this->cameraRect.top = center.y - pk::SCREEN_HF / 2.0f;
+    this->setCenter(center.x, center.y);
 }
 
 

@@ -15,16 +15,14 @@ namespace pk {
     private:
         std::uint32_t currentFrame{};
         std::uint32_t counter{};
-        std::uint32_t maxFrame{1};
+        std::uint32_t maxCounter{1};
         std::uint32_t speed{1};
 
     public:
         FrameCounter() = default;
-        FrameCounter(std::uint32_t speed, std::uint32_t maxFrame);
-        void update();
-        void setMaxFrame(std::uint32_t frame);
-        std::uint32_t getMaxFrame() const;
+        FrameCounter(std::uint32_t speed, std::uint32_t maxCounter);
         std::uint32_t getCounter() const;
+        void update();
 
     };
 

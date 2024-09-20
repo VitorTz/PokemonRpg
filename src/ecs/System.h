@@ -47,7 +47,7 @@ namespace pk {
     class WaterSystem final : public pk::System {
 
     private:
-        pk::FrameCounter counter{pk::ANIMATION_TIME_SLOW, 2};
+        pk::FrameCounter counter{pk::WATER_ANIMATION_SPEED, 2};
         sf::Sprite waterSprite{};
 
     public:

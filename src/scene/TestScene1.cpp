@@ -4,7 +4,7 @@
 #include "Scene.h"
 
 
-sf::Vector2f center{pk::WORLD_CENTERX, pk::WORLD_HEIGHT - pk::SCREEN_HF};
+sf::Vector2f center{pk::WORLD_CENTERX, pk::WORLD_CENTERY};
 const float speed = 1050.0f;
 
 pk::TestScene1::TestScene1() {
@@ -35,6 +35,11 @@ pk::TestScene1::TestScene1() {
         pk::gEcs.insertComponent<pk::boat_t>(e, pk::boat_t{});
         pk::gEcs.insertComponent<pk::sprite_t>(e, pk::sprite_t{});
         pk::gEcs.insertComponent<pk::bezier_curve_t>(e, pk::bezier_curve_t{});
+
+    // Sprite Animation
+        e = pk::gEcs.entityCreate(2, true);
+        pk::addSpriteAnimation(e, pk::AssetId::PlayerAssetId, pk::PLAYER_ANIMATION_SPEED);
+        pk::gEcs.getTransform(e).pos = {pk::WORLD_CENTERX, pk::WORLD_CENTERY};
 
 }
 

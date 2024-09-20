@@ -55,20 +55,21 @@ namespace pk {
     } bezier_curve_t;
 
     typedef struct sprite_animation {
+        sf::Sprite sprite{};
         sf::IntRect rect{};
         pk::FrameCounter counter;
         std::uint32_t cols{};
         sprite_animation() = default;
-        sprite_animation(
-            const sf::Vector2f spriteSize,
-            const std::uint32_t animationSpeed,
-            const std::uint32_t rows,
-            const std::uint32_t cols
-        ) : counter(animationSpeed, rows * cols),
-            cols(cols) {
-            this->rect.width = spriteSize.x / cols;
-            this->rect.height =spriteSize.y / rows;
-        }
+        explicit sprite_animation(
+            const pk::asset_t& asset,
+            const pk::animation_speed_t animationSpeed
+        ) : sprite(pk::gTexturePool.get(asset.path.c_str())),
+            counter(animationSpeed, asset.rows * asset.cols),
+            cols(asset.cols) {
+                this->sprite.setOrigin(static_cast<float>(asset.spriteWidth) / 2.0f, static_cast<float>(asset.spriteHeight) / 2.0f);
+                this->rect.width = static_cast<int>(asset.spriteWidth);
+                this->rect.height = static_cast<int>(asset.spriteHeight);
+            }
     } sprite_animation_t;
 
     typedef struct boat {
