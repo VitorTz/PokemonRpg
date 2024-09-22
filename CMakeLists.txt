@@ -47,6 +47,8 @@ add_executable (${PROJECT_NAME}
         src/ecs/SpriteAnimationSystem.cpp
         src/ecs/CollisionSystem.cpp
         src/ecs/PlayerSystem.cpp
+        src/util/TiledMap.h
+        src/util/TiledMap.cpp
 
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)

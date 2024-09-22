@@ -12,7 +12,8 @@ namespace pk {
     unsigned long hash(const char* s);
 
     int randint(int start, int end);
-
+    double euclideanDistance(const std::pair<int, int>& start, const std::pair<int, int>& end);
+    double euclideanDistance(int startX, int startY, int endX, int endY);
 
 }
 
