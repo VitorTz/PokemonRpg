@@ -1,10 +1,11 @@
 //
-// Created by vitor on 9/14/24.
+// Created by vitor on 9/21/24.
 //
 
-#ifndef ENTITYMANAGE_H
-#define ENTITYMANAGE_H
+#ifndef ENTITY_H
+#define ENTITY_H
 #include "../pokemon.h"
+
 
 namespace pk {
 
@@ -23,6 +24,7 @@ namespace pk {
 
     };
 
+
 }
 
-#endif //ENTITYMANAGE_H
+#endif //ENTITY_H

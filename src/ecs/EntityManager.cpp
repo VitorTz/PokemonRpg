@@ -1,7 +1,8 @@
 //
-// Created by vitor on 9/14/24.
+// Created by vitor on 9/21/24.
 //
-#include "EntityManager.h"
+#include "Entity.h"
+#include "../pokemon.h"
 
 
 pk::EntityManager::EntityManager() {
@@ -20,7 +21,7 @@ pk::entity_t pk::EntityManager::entityCreate() {
 }
 
 
-void pk::EntityManager::entityDestroy(pk::entity_t e) {
+void pk::EntityManager::entityDestroy(const pk::entity_t e) {
     this->entities.push(e);
     this->mSize--;
 }
@@ -31,15 +32,10 @@ void pk::EntityManager::clear() {
     for (pk::entity_t e = 0; e < pk::MAX_ENTITIES; e++) {
         this->entities.push(e);
     }
-    this->mSize = 0;
+    this->mSize--;
 }
 
 
 std::size_t pk::EntityManager::size() const {
     return this->mSize;
 }
-
-
-
-
-

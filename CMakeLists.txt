@@ -17,46 +17,37 @@ FetchContent_MakeAvailable(SFML)
 add_executable (${PROJECT_NAME}
         src/main.cpp
         src/pokemon.h
-        src/window/Camera.h
-        src/window/Camera.cpp
-        src/ecs/EntityManager.h
-        src/ecs/EntityManager.cpp
-        src/ecs/System.h
-        src/ecs/SystemManager.h
-        src/util/TypeId.h
-        src/ecs/components.h
-        src/util/TexturePool.h
-        src/util/TexturePool.cpp
         src/util/util.h
         src/util/util.cpp
-        src/ecs/ComponentArray.h
-        src/ecs/ComponentManager.h
-        src/ecs/ECS.h
+        src/util/AssetPool.h
+        src/util/TexturePool.cpp
+        src/util/FontID.h
+        src/util/FontPool.cpp
         src/scene/Scene.h
+        src/scene/SceneID.h
         src/scene/SceneManager.cpp
-        src/scene/TestScene1.cpp
-        src/scene/LevelScene.cpp
-        src/scene/LoadingScreen.cpp
+        src/scene/Level.cpp
         src/scene/TitleScreen.cpp
-        src/ecs/SystemTransform.cpp
-        src/ecs/SystemSprite.cpp
-        src/ecs/SystemCollisionBox.cpp
-        src/ecs/SystemCollisionBoxStatic.cpp
-        src/ecs/SystemWater.cpp
-        src/ecs/SystemBezierCurve.cpp
-        src/window/Window.h
-        src/window/Window.cpp
-        src/ecs/SystemBoat.cpp
-        src/ecs/SystemSpriteAnimation.cpp
+        src/scene/LoadingScreen.cpp
+        src/ecs/components.h
+        src/util/types.h
         src/util/FrameCounter.h
         src/util/FrameCounter.cpp
-        src/ecs/player.h
-        src/ecs/player.cpp
-        src/ecs/SystemPlayer.cpp
-        src/util/Debug.h
-        src/util/Debug.cpp
-        src/util/FontPool.h
-        src/util/FontPool.cpp
+        src/util/TypeID.h
+        src/ecs/Entity.h
+        src/ecs/EntityManager.cpp
+        src/ecs/System.h
+        src/ecs/Component.h
+        src/ecs/ECS.h
+        src/util/Camera.h
+        src/util/Camera.cpp
+        src/scene/TestScene.cpp
+        src/ecs/SpriteSystem.cpp
+        src/ecs/MovementSystem.cpp
+        src/ecs/SpriteAnimationSystem.cpp
+        src/ecs/CollisionSystem.cpp
+        src/ecs/PlayerSystem.cpp
+
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
 

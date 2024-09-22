@@ -1,17 +1,14 @@
 //
-// Created by vitor on 9/14/24.
+// Created by vitor on 9/21/24.
 //
 
 #ifndef SCENE_H
 #define SCENE_H
 #include "../pokemon.h"
-#include "../util/TexturePool.h"
-#include "../util/util.h"
-#include "../ecs/ECS.h"
+#include "SceneID.h"
 
 
 namespace pk {
-
 
     class Scene {
 
@@ -32,10 +29,11 @@ namespace pk {
 
     };
 
-    class LevelScene final : public pk::Scene {
+
+    class Level final : public pk::Scene {
 
     public:
-        LevelScene();
+        Level();
         void update(float dt) override;
         void render(sf::RenderWindow& window) override;
 
@@ -64,17 +62,17 @@ namespace pk {
     private:
         std::unique_ptr<pk::Scene> scene{};
         std::unique_ptr<pk::LoadingScreen> loadingScreen{};
-        pk::SceneId nextScene{pk::MAIN_SCENE};
-        bool shouldChangeScene{};
-        bool isChangingScene{};
+        pk::SceneId sceneId{pk::MAIN_SCENE};
+        bool shouldChangeScene{false};
+        bool isChangingScene{false};
 
     private:
         void loadNextScene();
 
     public:
         void init();
-        void update(float dt) override;
         void changeScene(pk::SceneId sceneId);
+        void update(float dt) override;
         void render(sf::RenderWindow& window) override;
 
     };

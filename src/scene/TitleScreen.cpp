@@ -1,5 +1,5 @@
 //
-// Created by vitor on 9/14/24.
+// Created by vitor on 9/21/24.
 //
 #include "Scene.h"
 
@@ -14,7 +14,7 @@ void pk::TitleScreen::update(const float dt) {
 }
 
 
-void pk::TitleScreen::render(sf::RenderWindow &window) {
+void pk::TitleScreen::render(sf::RenderWindow& window) {
 
 }
 

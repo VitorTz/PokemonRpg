@@ -1,50 +1,42 @@
 //
-// Created by vitor on 9/14/24.
+// Created by vitor on 9/21/24.
 //
-#include "TexturePool.h"
+#include <cassert>
+#include "AssetPool.h"
 #include "util.h"
 
+
 pk::TexturePool::TexturePool() {
-    this->textureMap.reserve(256);
+    this->pool.reserve(256);
 }
 
 
-sf::Sprite pk::TexturePool::get(const char *fileName) {
+sf::Sprite pk::TexturePool::get(const char *s) {
     sf::Sprite sprite{};
-    const unsigned long h = pk::hash(fileName);
-    if (this->textureMap.find(h) == this->textureMap.end()) {
-        const bool s = this->textureMap[h].loadFromFile(fileName);
-        assert(s && "[IMAGE NOT LOADING]");
-        std::cout << "[IMAGE LOADED! -> " << fileName << ']' << '\n';
+    const unsigned long h = pk::hash(s);
+    if (this->pool.find(h) == this->pool.end()) {
+        assert(this->pool[h].loadFromFile(s));
     }
-    sprite.setTexture(this->textureMap[h]);
+    sprite.setTexture(this->pool[h]);
     return sprite;
 }
 
 
-void pk::TexturePool::set(sf::Sprite *sprite, const char *fileName) {
-    const unsigned long h = pk::hash(fileName);
-    if (this->textureMap.find(h) == this->textureMap.end()) {
-        const bool s = this->textureMap[h].loadFromFile(fileName);
-        assert(s && "[IMAGE NOT LOADING]");
-    }
-    sprite->setTexture(this->textureMap[h]);
+void pk::TexturePool::erase(const char *s) {
+    this->pool.erase(pk::hash(s));
 }
-
-
-void pk::TexturePool::erase(const char *fileName) {
-    this->textureMap.erase(pk::hash(fileName));
-}
-
 
 
 void pk::TexturePool::clear() {
-    this->textureMap.clear();
+    this->pool.clear();
 }
 
 
 std::size_t pk::TexturePool::size() const {
-    return this->textureMap.size();
+    return this->pool.size();
 }
+
+
+
 
 
