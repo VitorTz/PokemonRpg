@@ -3,6 +3,12 @@
 #include "scene/Scene.h"
 
 
+void exit_game() {
+    pk::gTexturePool.clear();
+    pk::gFontPool.clear();
+}
+
+
 int main() {
     sf::RenderWindow window(
         sf::VideoMode(pk::SCREEN_W, pk::SCREEN_H),
@@ -26,10 +32,19 @@ int main() {
     while (window.isOpen()) {
         const float dt = clock.restart().asSeconds();
         sf::Event e{};
+        pk::gMouse.reset();
+        pk::gMouse.mousePos = static_cast<sf::Vector2f>((sf::Mouse::getPosition(window)));
+        pk::gMouse.mouseWorldPos = pk::gCamera.getMousePos(window);
         while (window.pollEvent(e)) {
             switch (e.type) {
                 case sf::Event::Closed:
                     window.close();
+                    break;
+                case sf::Event::MouseButtonPressed:
+                    pk::gMouse.isPressed = true;
+                    break;
+                case sf::Event::MouseButtonReleased:
+                    pk::gMouse.isReleased = true;
                     break;
                 default:
                     break;
@@ -40,6 +55,6 @@ int main() {
         pk::gSceneManager.render(window);
         window.display();
     }
-
+    exit_game();
     return 0;
 }

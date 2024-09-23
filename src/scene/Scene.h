@@ -4,8 +4,9 @@
 
 #ifndef SCENE_H
 #define SCENE_H
-#include "../pokemon.h"
 #include "SceneID.h"
+#include "../pokemon.h"
+#include "../util/TiledMap.h"
 
 
 namespace pk {
@@ -19,7 +20,6 @@ namespace pk {
 
     };
 
-
     class TitleScreen final : public pk::Scene {
 
     public:
@@ -29,8 +29,10 @@ namespace pk {
 
     };
 
-
     class Level final : public pk::Scene {
+
+    private:
+        std::unique_ptr<pk::TiledMap> tiledMap{};
 
     public:
         Level();
@@ -49,6 +51,10 @@ namespace pk {
     };
 
     class TestScene1 final : public pk::Scene {
+
+    private:
+        std::unique_ptr<pk::TiledMap> tiledMap{};
+        std::vector<std::pair<int, int>> walkPath{};
 
     public:
         TestScene1();

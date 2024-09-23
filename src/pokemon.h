@@ -23,6 +23,7 @@
 #include "util/FontID.h"
 #include "util/util.h"
 #include "util/types.h"
+#include "util/Mouse.h"
 #include "util/TypeID.h"
 
 
@@ -56,13 +57,14 @@ namespace pk {
     constexpr int ANIMATION_SPEED_NORMAL{60 / 8};
     constexpr int ANIMATION_SPEED_FAST{60 / 12};
 
+    // Camera Zindex
     constexpr pk::zindex_t CAMERA_MIN_ZINDEX{0};
     constexpr pk::zindex_t CAMERA_MAX_ZINDEX{10};
 
     // Player
     constexpr float PLAYER_SIZE{64.0f};
-
-    // Sprite Animation
+    constexpr pk::zindex_t PLAYER_ZINDEX{3};
+    constexpr pk::zindex_t PLAYER_SHADOW_ZINDEX{3};
     constexpr pk::sprite_animation_source_t PLAYER_SPRITE_ANIMATION{
         ASSETS_PATH "graphics/characters/player.png",
         static_cast<int>(PLAYER_SIZE),
@@ -71,6 +73,23 @@ namespace pk {
         4,
         pk::ANIMATION_SPEED_NORMAL
     };
+    constexpr auto PLAYER_SHADOW_SPRITE{GRAPHICS_PATH "other/shadow.png"};
+    constexpr float PLAYER_START_POS[2]{pk::WORLD_CENTERX, pk::WORLD_CENTERY};
+    constexpr float PLAYER_COLLISION_WIDTH{30.0f};
+    constexpr float PLAYER_COLLISION_HEIGHT{25.0f};
+
+    // TiledMap
+    constexpr  std::array<pk::pPair, 8> CELL_NEIGHBORS = {
+        pk::pPair{1.0, {0, -1}}, // left
+        pk::pPair{1.0, {0, 1}},  // right
+        pk::pPair{1.0, {1, 0}},  // bottom
+        pk::pPair{1.0, {-1, 0}}, // top
+        pk::pPair{0.50, {1, 1}}, // right bottom
+        pk::pPair{0.50, {-1, 1}}, // right top
+        pk::pPair{0.50, {1, -1}}, // left bottom
+        pk::pPair{0.50, {-1, -1}} // left top
+    };
+    constexpr std::pair<int, int> INVALID_POS{-1, -1};
 
 }
 

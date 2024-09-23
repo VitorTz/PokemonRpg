@@ -9,9 +9,9 @@
 #include <map>
 #include <queue>
 #include "util.h"
-
-
-constexpr std::pair<int, int> INVALID_POS{-1, -1};
+#include "../ecs/components.h"
+#include "../ecs/ECS.h"
+#include "../util/Mouse.h"
 
 
 pk::TiledMap::TiledMap(const char *source) {
@@ -29,7 +29,6 @@ pk::TiledMap::TiledMap(const char *source) {
             this->grid[i].push_back(x);
         }
     }
-    std::cout << this->grid.size() << ' ' << this->grid[0].size() << '\n';
     file.close();
 }
 
@@ -59,13 +58,21 @@ inline bool pk::TiledMap::isDestination(const int x, const int y) const {
 
 void pk::TiledMap::fillNeighbors(const std::pair<int, int>& pos) {
     this->validNeighbors = 0;
-    for (const pPair& pair : this->neighborsDelta) {
+    for (const pPair& pair : CELL_NEIGHBORS) {
         const int x = pos.first + pair.second.first;
         const int y = pos.second + pair.second.second;
         if (this->isValidPos(x, y)) {
             this->neighbors[this->validNeighbors++] = pPair{pair.first, std::pair<int, int>{x, y}};
         }
     }
+}
+
+
+const std::vector<std::pair<int, int>>& pk::TiledMap::getPath(
+    const std::pair<int, int>& start,
+    const std::pair<int, int>& end
+) {
+    return this->getPath(start.first, start.second, end.first, end.second);
 }
 
 
@@ -84,7 +91,7 @@ const std::vector<std::pair<int, int>>& pk::TiledMap::getPath(const int startX, 
         return this->path;
     }
 
-    pk::TiledMap::PriorityQueue priorityQueue{};
+    pk::PriorityQueue priorityQueue{};
     priorityQueue.push({0.0, {this->start}});
     cameFrom.emplace(this->start, INVALID_POS);
     costSoFar.emplace(this->start, 0.0);
@@ -117,3 +124,21 @@ const std::vector<std::pair<int, int>>& pk::TiledMap::getPath(const int startX, 
     std::reverse(this->path.begin(), this->path.end());
     return this->path;
 }
+
+
+std::pair<int, int> pk::TiledMap::getPlayerTile() {
+    std::pair<int, int> pair{};
+    const pk::transform_t& playerTransform = pk::gEcs.getTransform(pk::gPlayer.playerEntity);
+    pair.first = static_cast<int>(playerTransform.pos.x / pk::TILE_SIZE);
+    pair.second = static_cast<int>((playerTransform.pos.y + playerTransform.size.y / 2.0f - 5.0f) / pk::TILE_SIZE);
+    return pair;
+}
+
+
+std::pair<int, int> pk::TiledMap::getTilePressedByMouse() {
+    std::pair<int, int> pair{};
+    pair.first = static_cast<int>(pk::gMouse.mouseWorldPos.x / pk::TILE_SIZE);
+    pair.second = static_cast<int>(pk::gMouse.mouseWorldPos.y / pk::TILE_SIZE);
+    return pair;
+}
+

@@ -23,8 +23,11 @@ namespace pk {
         void erase(pk::entity_t e);
         void clear();
         void draw(sf::RenderWindow& window, pk::SystemManager* system);
+        void beginDrawing(sf::RenderWindow& window) const;
+        void endDrawing(sf::RenderWindow& window);
         void setCenter(const sf::Vector2f& center);
         void setCenter(float x, float y);
+        sf::Vector2f getMousePos(sf::RenderWindow& window) const;
         std::size_t size() const;
 
     };

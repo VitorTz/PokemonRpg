@@ -157,6 +157,21 @@ namespace pk {
             return e;
         }
 
+        void createPlayer() {
+            pk::gPlayer.playerEntity = this->createSpriteAnimationEntity(
+                pk::PLAYER_ZINDEX,
+                pk::PLAYER_SPRITE_ANIMATION,
+                sf::Vector2f(pk::PLAYER_START_POS[0], pk::PLAYER_START_POS[1])
+            );
+            pk::gPlayer.shadowEntity = this->createSpriteEntity(
+                pk::PLAYER_SHADOW_ZINDEX,
+                pk::PLAYER_SHADOW_SPRITE,
+                sf::Vector2f(pk::PLAYER_START_POS[0], pk::PLAYER_START_POS[1])
+            );
+            pk::gPlayer.collisionRect.width = pk::PLAYER_COLLISION_WIDTH;
+            pk::gPlayer.collisionRect.height = pk::PLAYER_COLLISION_HEIGHT;
+        }
+
         const pk::EntityManager* getEntityManager() const {
             return this->entity.get();
         }

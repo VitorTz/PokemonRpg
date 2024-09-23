@@ -5,9 +5,8 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 #include <SFML/Graphics.hpp>
-#include <cstdint>
-#include "../util/FrameCounter.h"
 #include "../util/AssetPool.h"
+#include "../util/FrameCounter.h"
 #include "../util/types.h"
 
 
@@ -56,7 +55,7 @@ namespace pk {
             const pk::sprite_animation_source_t& source
         ) : sprite(pk::gTexturePool.get(source.filePath)),
             rect(0, 0, source.spriteWidth, source.spriteHeight),
-            counter(source.rows, source.rows * source.cols),
+            counter(source.speed, source.rows * source.cols),
             cols(source.cols) {
             sprite.setOrigin(static_cast<float>(source.spriteWidth) / 2.0f,  static_cast<float>(source.spriteHeight) / 2.0f);
         }
@@ -70,6 +69,8 @@ namespace pk {
         char direction[2]{'i', 'd'};
         char action{'x'};
     } player_t;
+
+    inline pk::player_t gPlayer{};
 
 }
 

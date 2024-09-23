@@ -39,7 +39,6 @@ namespace pk {
 
     };
 
-
     class PlayerSystem final : public pk::System {
 
     public:

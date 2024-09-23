@@ -39,9 +39,18 @@ void pk::Camera::erase(const pk::entity_t e) {
     }
 }
 
+inline void pk::Camera::beginDrawing(sf::RenderWindow &window) const {
+    window.setView(this->view);
+}
+
+
+inline void pk::Camera::endDrawing(sf::RenderWindow &window) {
+    window.setView(window.getDefaultView());
+}
+
 
 void pk::Camera::draw(sf::RenderWindow &window, pk::SystemManager *system) {
-    window.setView(this->view);
+    this->beginDrawing(window);
     for (auto& pair : this->camera) {
         for (std::pair<float, pk::entity_t>& pair1 : pair.second) {
             const pk::transform_t& t = pk::gEcs.getTransform(pair1.second);
@@ -50,7 +59,7 @@ void pk::Camera::draw(sf::RenderWindow &window, pk::SystemManager *system) {
         std::sort(pair.second.begin(), pair.second.end());
         system->draw(window, pair.second);
     }
-    window.setView(window.getDefaultView());
+    this->endDrawing(window);
 }
 
 
@@ -74,11 +83,14 @@ void pk::Camera::clear() {
 }
 
 
+sf::Vector2f pk::Camera::getMousePos(sf::RenderWindow& window) const {
+    window.setView(this->view);
+    const sf::Vector2f p = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+    window.setView(window.getDefaultView());
+    return p;
+}
+
 
 std::size_t pk::Camera::size() const {
     return this->mSize;
 }
-
-
-
-

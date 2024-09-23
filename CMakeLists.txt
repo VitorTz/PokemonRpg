@@ -49,6 +49,8 @@ add_executable (${PROJECT_NAME}
         src/ecs/PlayerSystem.cpp
         src/util/TiledMap.h
         src/util/TiledMap.cpp
+        src/util/Mouse.h
+        src/util/Mouse.cpp
 
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)

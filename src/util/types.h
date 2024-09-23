@@ -5,7 +5,9 @@
 #ifndef TYPES_H
 #define TYPES_H
 #include <cstdint>
+#include <queue>
 #include <vector>
+
 
 namespace pk {
 
@@ -20,7 +22,11 @@ namespace pk {
         int cols{};
         int speed{};
     } sprite_animation_source_t;
+
     typedef std::vector<std::pair<float, pk::entity_t>> EntityVector;
+
+    typedef struct std::pair<double, std::pair<int, int>> pPair;
+    typedef struct std::priority_queue<pPair, std::vector<pPair>, std::greater<>> PriorityQueue;
 
 
 }
