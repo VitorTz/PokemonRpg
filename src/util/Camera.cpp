@@ -1,96 +1,106 @@
-//
-// Created by vitor on 9/21/24.
-//
-#include "Camera.h"
+#include "Camera.hpp"
+#include "constants.hpp"
+#include "raylib.h"
+#include "types.hpp"
 #include <algorithm>
-#include "../ecs/ECS.h"
+#include <cstddef>
+#include <algorithm>
+#include "../ecs/ECS.hpp"
 
 
-pk::Camera::Camera() {
+pk::Camera::Camera() {    
+    this->camera.target = Vector2{0.0f, 0.0f};
+    this->camera.offset = Vector2{pk::SCREEN_CENTERX, pk::SCREEN_CENTERY};
+    this->camera.zoom = 1.0f;
     for (pk::zindex_t z = pk::CAMERA_MIN_ZINDEX; z <= pk::CAMERA_MAX_ZINDEX; z++) {
-        this->camera[z].reserve(pk::MAX_ENTITIES);
+        this->cameraEntities[z].reserve(pk::MAX_ENTITIES);
     }
-    this->view.setSize(pk::SCREEN_W, pk::SCREEN_H);
-    this->view.setCenter(pk::WORLD_CENTERX, pk::WORLD_CENTERY);
-    this->view.zoom(1.0f);
+}
+
+
+void pk::Camera::addZoom(const float delta) {    
+    this->camera.zoom = std::clamp(this->camera.zoom + delta, pk::CAMERA_MIN_ZOOM, pk::CAMERA_MAX_ZOOM);
+}
+
+
+void pk::Camera::resetZoom() {    
+    this->camera.zoom = 1.0f;
+}
+
+
+float pk::Camera::getZoom() const {
+    return this->camera.zoom;
+}
+
+
+void pk::Camera::setTarget(const Vector2 target) {
+    this->camera.target = target;
+}
+
+
+void pk::Camera::setOffset(const Vector2 offset) {
+    this->camera.offset = offset;
 }
 
 
 void pk::Camera::insert(const pk::entity_t e) {
-    if (this->isOnCamera[e] == false) {
-        this->isOnCamera[e] = true;
-        this->mSize++;
-        this->camera[pk::gEcs.getTransform(e).zindex].emplace_back(0.0f, e);
+    if (this->onCamera[e] == false) {
+        this->onCamera[e] = true;
+        const pk::zindex_t z = pk::gEcs.getTransform(e).zindex;
+        this->cameraEntities[z].push_back({0.0f, e});
     }
 }
 
 
 void pk::Camera::erase(const pk::entity_t e) {
-    if (this->isOnCamera[e] == true) {
-        this->isOnCamera[e] = false;
-        this->mSize--;
-        std::vector<std::pair<float, pk::entity_t>>& v = this->camera[pk::gEcs.getTransform(e).zindex];
-        for (std::size_t i = 0; i < v.size(); i++) {
+    if (this->onCamera[e] == true) {
+        this->onCamera[e] = false;
+        const pk::zindex_t z = pk::gEcs.getTransform(e).zindex;
+        std::vector<std::pair<float, pk::entity_t>>& v = this->cameraEntities[z];
+        for (std::size_t i = 0; v.size(); i++) {
             if (v[i].second == e) {
                 v.erase(v.begin() + i);
-                return;
+                return;;
             }
         }
     }
-}
-
-inline void pk::Camera::beginDrawing(sf::RenderWindow &window) const {
-    window.setView(this->view);
-}
+} 
 
 
-inline void pk::Camera::endDrawing(sf::RenderWindow &window) {
-    window.setView(window.getDefaultView());
-}
-
-
-void pk::Camera::draw(sf::RenderWindow &window, pk::SystemManager *system) {
-    this->beginDrawing(window);
-    for (auto& pair : this->camera) {
+void pk::Camera::sortEntitiesByCenterYpos() {
+    for (auto& pair : this->cameraEntities) {
         for (std::pair<float, pk::entity_t>& pair1 : pair.second) {
             const pk::transform_t& t = pk::gEcs.getTransform(pair1.second);
             pair1.first = t.pos.y + t.size.y / 2.0f;
         }
         std::sort(pair.second.begin(), pair.second.end());
-        system->draw(window, pair.second);
     }
-    this->endDrawing(window);
-}
-
-
-void pk::Camera::setCenter(const float x, const float y) {
-    this->view.setCenter(x, y);
-}
-
-
-void pk::Camera::setCenter(const sf::Vector2f &center) {
-    this->view.setCenter(center);
 }
 
 
 void pk::Camera::clear() {
-    for (auto& pair : this->camera) {
+    for (auto& pair : this->cameraEntities) {
         pair.second.clear();
     }
-    for (bool& b : this->isOnCamera) {
+    for (bool& b : this->onCamera) {
         b = false;
     }
 }
 
 
-sf::Vector2f pk::Camera::getMousePos(sf::RenderWindow& window) const {
-    window.setView(this->view);
-    const sf::Vector2f p = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-    window.setView(window.getDefaultView());
-    return p;
+const std::map<pk::zindex_t, std::vector<std::pair<float, pk::entity_t>>>& pk::Camera::getEntities() const {
+    return this->cameraEntities;
 }
 
 
-std::size_t pk::Camera::size() const {
-    return this->mSize;
+void pk::Camera::beginDrawing() {
+    BeginDrawing();
+    ClearBackground(BLACK);
+    BeginMode2D(this->camera);
+}
+
+
+void pk::Camera::endDrawing() {
+    EndMode2D();
+    EndDrawing();
 }

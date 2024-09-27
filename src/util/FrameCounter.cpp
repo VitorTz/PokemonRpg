@@ -1,27 +1,38 @@
-//
-// Created by vitor on 9/21/24.
-//
-#include "FrameCounter.h"
+#include "FrameCounter.hpp"
+#include <cstdint>
 
 
-pk::FrameCounter::FrameCounter(const int speed, const int maxCounter) : speed(speed), maxCounter(maxCounter) {
+
+pk::FrameCounter::FrameCounter(
+    const std::uint8_t maxFrame,
+    const std::uint8_t speed
+) : maxFrame(maxFrame),
+    speed(speed) {
 
 }
 
 
-void pk::FrameCounter::update() {
+std::uint8_t pk::FrameCounter::update() {
     this->currentFrame++;
     if (this->currentFrame > this->speed) {
         this->currentFrame = 0;
-        this->counter = (this->counter + 1) % this->maxCounter;
+        this->counter = (this->counter + 1) % this->maxFrame;        
     }
-}
-
-
-int pk::FrameCounter::getCounter() const {
     return this->counter;
 }
 
 
+void pk::FrameCounter::setSpeed(const std::uint8_t speed) {
+    this->speed = speed;
+}
 
 
+void pk::FrameCounter::setMaxFrame(const std::uint8_t maxFrame) {
+    this->maxFrame = maxFrame;
+}
+
+
+void pk::FrameCounter::reset() {
+    this->currentFrame = 0;
+    this->counter = 0;
+}

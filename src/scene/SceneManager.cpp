@@ -1,28 +1,26 @@
-//
-// Created by vitor on 9/21/24.
-//
-#include "Scene.h"
+#include "Scene.hpp"
+#include <thread>
 
 
 void pk::SceneManager::init() {
     this->loadNextScene();
-    this->loadingScreen = std::make_unique<pk::LoadingScreen>();
+    this->loadingScene = std::make_unique<pk::LoadingScene>();
 }
 
 
 void pk::SceneManager::loadNextScene() {
-    switch (this->sceneId) {
+    switch (this->nextScene) {
+        case pk::SceneId::TestScene1Id:
+            this->scene = std::make_unique<pk::TestScene1>();
+            break;
+        case pk::SceneId::LevelSceneId:
+            this->scene = std::make_unique<pk::LevelScene>();
+            break;
         case pk::SceneId::TitleScreenId:
             this->scene = std::make_unique<pk::TitleScreen>();
             break;
-        case pk::SceneId::LevelSceneId:
-            this->scene = std::make_unique<pk::Level>();
-            break;
-        case pk::SceneId::LoadingScreenId:
-            this->scene = std::make_unique<pk::LoadingScreen>();
-            break;
-        case pk::SceneId::TestScene1Id:
-            this->scene = std::make_unique<pk::TestScene1>();
+        case pk::SceneId::LoadingSceneId:
+            this->scene = std::make_unique<pk::LoadingScene>();
             break;
         default:
             break;
@@ -34,14 +32,14 @@ void pk::SceneManager::loadNextScene() {
 void pk::SceneManager::changeScene(const pk::SceneId sceneId) {
     if (this->isChangingScene == false) {
         this->shouldChangeScene = true;
-        this->sceneId = sceneId;
+        this->nextScene = sceneId;
     }
 }
 
 
 void pk::SceneManager::update(const float dt) {
     if (this->isChangingScene) {
-        this->loadingScreen->update(dt);
+        this->loadingScene->update(dt);
     } else {
         this->scene->update(dt);
     }
@@ -54,11 +52,10 @@ void pk::SceneManager::update(const float dt) {
 }
 
 
-void pk::SceneManager::render(sf::RenderWindow &window) {
+void pk::SceneManager::draw() {
     if (this->isChangingScene) {
-        this->loadingScreen->render(window);
+        this->loadingScene->draw();
     } else {
-        this->scene->render(window);
+        this->scene->draw();
     }
 }
-
