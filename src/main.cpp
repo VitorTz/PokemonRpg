@@ -1,25 +1,20 @@
+//
+// Created by vitor on 9/28/24.
+//
 #include <raylib.h>
-#include <cassert>
-#include "util/constants.hpp"
-#include "util/globals.hpp"
-#include "ecs/ECS.hpp"
+#include "ecs/ECS.h"
+#include "scene/Scene.h"
+#include "util/constants.h"
+#include "util/TexturePool.h"
 
 
-
-static void mainloop() {    
-    // update
-        const float dt = GetFrameTime();
-        pk::gSceneManager.update(dt);
-    // Draw
-    pk::gCamera.beginDrawing();
-    // BeginDrawing();        
-        pk::gSceneManager.draw();
-    // EndDrawing();
-    pk::gCamera.endDrawing();
+static void mainloop() {
+    pk::gSceneManager.update(GetFrameTime());
+    pk::gSceneManager.draw();
 }
 
 
-int main() {
+int main(int argc, char *argv[]) {
     InitWindow(static_cast<int>(pk::SCREEN_W), static_cast<int>(pk::SCREEN_H), pk::WINDOW_TITLE);
 
     pk::gEcs.init();
@@ -32,9 +27,9 @@ int main() {
         while (WindowShouldClose() == false) {
             mainloop();
         }
-    #endif    
+    #endif
 
-    pk::gAssetPool.clear();
+    pk::gTexturePool.clear();
     CloseWindow();
     return 0;
 }

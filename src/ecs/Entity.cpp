@@ -1,5 +1,8 @@
-#include "Entity.hpp"
-#include "../util/constants.hpp"
+//
+// Created by vitor on 9/28/24.
+//
+#include "Entity.h"
+#include <cassert>
 
 
 pk::EntityManager::EntityManager() {
@@ -10,6 +13,7 @@ pk::EntityManager::EntityManager() {
 
 
 pk::entity_t pk::EntityManager::entityCreate() {
+    assert(this->mSize < pk::MAX_ENTITIES);
     const pk::entity_t e = this->entities.front();
     this->entities.pop();
     this->mSize++;
@@ -28,10 +32,11 @@ void pk::EntityManager::clear() {
     for (pk::entity_t e = 0; e < pk::MAX_ENTITIES; e++) {
         this->entities.push(e);
     }
-    this->mSize--;
+    this->mSize = 0;
 }
 
 
 std::size_t pk::EntityManager::size() const {
     return this->mSize;
 }
+
