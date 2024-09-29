@@ -36,6 +36,8 @@ namespace pk {
         return *(arr + pk::randint(0, size));
     }
 
+    void loadWorldMap(const char* fileName);
+
 
 }
 

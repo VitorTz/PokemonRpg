@@ -114,6 +114,19 @@ namespace pk {
             pk::gCamera.draw(this->system.get());
         }
 
+        pk::entity_t createSprite(const pk::zindex_t zindex, const char* fileName) {
+            const pk::entity_t e = this->entityCreate(zindex, true);
+            this->addComponent(e, pk::sprite_t{fileName});
+            const pk::sprite_t& sprite = this->component->at<pk::sprite_t>(e);
+            this->component->at<pk::transform_t>(e).rect = {
+                0.0f,
+                0.0f,
+                static_cast<float>(sprite.texture.width),
+                static_cast<float>(sprite.texture.height)
+            };
+            return e;
+        }
+
         bool checkCollision(const Rectangle& rect) const {
             pk::ComponentArray<pk::collision_t>* cArray = this->component->getComponentArray<pk::collision_t>();
             return std::any_of(

@@ -15,8 +15,7 @@ namespace pk {
     constexpr std::size_t NUM_COMPONENTS{6};
 
     typedef struct transform {
-        Vector2 pos{};
-        Vector2 size{};
+        Rectangle rect{};
         pk::zindex_t zindex{};
         float rotation{};
         transform() = default;

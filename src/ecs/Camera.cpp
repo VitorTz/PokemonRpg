@@ -34,7 +34,7 @@ void pk::Camera::draw(pk::SystemManager *systemManager) {
         for (auto& pair : this->entities) {
             for (std::pair<float, pk::entity_t>& p : pair.second) {
                 const pk::transform_t& t = pk::gEcs.getTransform(p.second);
-                p.first = t.pos.y + t.size.y / 2.0f;
+                p.first = t.rect.y + t.rect.height / 2.0f;
             }
             std::sort(pair.second.begin(), pair.second.end());
             systemManager->draw(pair.second);

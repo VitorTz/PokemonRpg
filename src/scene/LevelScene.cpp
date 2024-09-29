@@ -7,11 +7,7 @@
 
 pk::LevelScene::LevelScene() {
     pk::gCamera.reset();
-    pk::entity_t e = pk::gEcs.entityCreate(0, true);
-    pk::gEcs.addComponent(e, pk::sprite_t{ASSETS_PATH "icons/Pokemon-Title.png"});
-    pk::transform_t& t = pk::gEcs.getTransform(e);
-    const auto& s = pk::gEcs.getComponent<pk::sprite_t>(e);
-    t.size = Vector2{static_cast<float>(s.texture.width),  static_cast<float>(s.texture.height)};
+    pk::entity_t e = pk::gEcs.createSprite(0, ASSETS_PATH "icons/Pokemon-Title.png");
 }
 
 

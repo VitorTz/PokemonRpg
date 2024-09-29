@@ -1,9 +1,9 @@
 //
 // Created by vitor on 9/28/24.
 //
-#include "util.h"
 #include <random>
-
+#include "util.h"
+#include "../ecs/ECS.h"
 
 std::random_device dev{};
 std::uniform_int_distribution<int> dist(0, std::numeric_limits<int>::max());
@@ -34,4 +34,10 @@ std::filesystem::path pk::randomFile(const char *dir) {
     }
     return pk::randomChoice(v);
 }
+
+
+void pk::loadWorldMap(const char *fileName) {
+
+}
+
 

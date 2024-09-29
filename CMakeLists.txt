@@ -52,7 +52,9 @@ add_executable (${PROJECT_NAME}
         src/ecs/CollisionSystem.cpp
         src/ecs/MovementSystem.cpp
         src/ecs/PlayerSystem.cpp
-        src/ecs/SpriteAnimationSystem.cpp)
+        src/ecs/SpriteAnimationSystem.cpp
+        src/util/TiledMap.h
+        src/util/TiledMap.cpp)
 
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
