@@ -1,21 +1,16 @@
 //
-// Created by vitor on 9/28/24.
+// Created by vitor on 9/30/24.
 //
 
 #ifndef ECS_H
 #define ECS_H
-#include <algorithm>
-#include <map>
-#include "Component.h"
-#include "components.h"
-#include "ECS.h"
 #include "Entity.h"
+#include "Component.h"
 #include "System.h"
-#include "Camera.h"
+#include "../util/TiledMap.h"
 
 
 namespace pk {
-
 
     class ECS {
 
@@ -35,57 +30,51 @@ namespace pk {
             this->system = std::make_unique<pk::SystemManager>();
         }
 
-        void init() {
-            pk::gTypeId.registerType<pk::transform_t>();
-            pk::gTypeId.registerType<pk::sprite_t>();
-            pk::gTypeId.registerType<pk::sprite_animation_t>();
-            pk::gTypeId.registerType<pk::collision_t>();
-            pk::gTypeId.registerType<pk::movement_t>();
-            pk::gTypeId.registerType<pk::player_t>();
-            assert(pk::gTypeId.size() == pk::NUM_COMPONENTS);
-
-            this->component->registerComponent<pk::transform_t>();
-            this->component->registerComponent<pk::sprite_t>();
-            this->component->registerComponent<pk::sprite_animation_t>();
-            this->component->registerComponent<pk::collision_t>();
-            this->component->registerComponent<pk::movement_t>();
-            this->component->registerComponent<pk::player_t>();
-            assert(this->component->size() == pk::NUM_COMPONENTS);
-
-            this->system->registerSystem<pk::transform_t, pk::TransformSystem>();
-            this->system->registerSystem<pk::sprite_t, pk::SpriteSystem>();
-            this->system->registerSystem<pk::sprite_animation_t, pk::SpriteAnimationSystem>();
-            this->system->registerSystem<pk::collision_t, pk::CollisionSystem>();
-            this->system->registerSystem<pk::movement_t, pk::MovementSystem>();
-            this->system->registerSystem<pk::player_t, pk::PlayerSystem>();
-            assert(this->system->size() == pk::NUM_COMPONENTS);
-        }
-
-        pk::entity_t entityCreate(const pk::zindex_t zindex, const bool submitToCamera) {
-            assert(zindex >= pk::CAMERA_MIN_ZINDEX && zindex <= pk::CAMERA_MAX_ZINDEX);
+        pk::entity_t entityCreate(const pk::zindex_t zindex, const bool isOnCamera) {
             const pk::entity_t e = this->entity->entityCreate();
-            this->addComponent<pk::transform_t>(e, pk::transform_t{zindex});
-            if (submitToCamera) pk::gCamera.insert(e);
+            this->component->insert<pk::transform_t, pk::id::transform>(e, pk::transform_t{zindex});
+            if (isOnCamera) this->system->addToCamera(e);
             return e;
         }
 
-        void entityDestroy(const pk::entity_t e) {
-            this->entitiesToDestroy.push(e);
+        pk::entity_t createSprite(const pk::zindex_t zindex, const char* fileName) {
+            const pk::entity_t e = this->entityCreate(zindex, true);
+            this->addComponent<pk::sprite_t, pk::id::sprite>(e, pk::sprite_t{fileName});
+            const pk::sprite_t& sprite = this->component->at<pk::sprite_t, pk::id::sprite>(e);
+            pk::transform_t& transform = this->getTransform(e);
+            transform.size = Vector2{
+                static_cast<float>(sprite.texture.width),
+                static_cast<float>(sprite.texture.height)
+            };
+            return e;
         }
 
-        template<typename T>
-        T& getComponent(const pk::entity_t e) {
-            return this->component->at<T>(e);
+        pk::entity_t createPlayer() {
+            const pk::entity_t playerEntity = this->entityCreate(pk::PLAYER_ZINDEX, true);
+            const pk::entity_t shadowEntity = this->createSprite(pk::PLAYER_SHADOW_ZINDEX, GRAPHICS_PATH "other/shadow.png");
+            this->addComponent<pk::player_t, id::player>(playerEntity, pk::player_t{shadowEntity});
+            this->addComponent<pk::sprite_animation_t, id::sprite_animation>(playerEntity, pk::sprite_animation_t{pk::PLAYER_SPRITE_ANIMATION});
+            this->addComponent<pk::movement_t, id::movement>(playerEntity, pk::movement_t{});
+            return playerEntity;
         }
 
-        template<typename T>
+        template<typename T, pk::component_t id>
         void addComponent(const pk::entity_t e, T c) {
-            this->component->insert<T>(e, std::move(c));
-            this->system->insert<T>(e);
+            this->component->insert<T, id>(e, std::move(c));
+            this->system->insert(e, id);
+        }
+
+        template<typename T, pk::component_t id>
+        T& getComponent(const pk::entity_t e) {
+            return this->component->at<T, id>(e);
         }
 
         pk::transform_t& getTransform(const pk::entity_t e) {
-            return this->component->at<pk::transform_t>(e);
+            return this->component->at<pk::transform_t, pk::id::transform>(e);
+        }
+
+        void  entityDestroy(const pk::entity_t e) {
+            this->entitiesToDestroy.push(e);
         }
 
         void update(const float dt) {
@@ -93,17 +82,13 @@ namespace pk {
 
             if (this->shouldDestroyAllEntities) {
                 this->shouldDestroyAllEntities = false;
-                pk::gCamera.clear();
-                this->entitiesToDestroy = std::queue<pk::entity_t>();
-                this->entity->clear();
-                this->component->clear();
-                this->system->clear();
+                this->unloadAllEntities();
             }
 
             while (this->entitiesToDestroy.empty() == false) {
                 const pk::entity_t e = this->entitiesToDestroy.front();
                 this->entitiesToDestroy.pop();
-                pk::gCamera.erase(e);
+                this->system->rmvFromCamera(e);
                 this->entity->entityDestroy(e);
                 this->component->entityDestroy(e);
                 this->system->entityDestroy(e);
@@ -111,30 +96,14 @@ namespace pk {
         }
 
         void draw() const {
-            pk::gCamera.draw(this->system.get());
+            this->system->draw();
         }
 
-        pk::entity_t createSprite(const pk::zindex_t zindex, const char* fileName) {
-            const pk::entity_t e = this->entityCreate(zindex, true);
-            this->addComponent(e, pk::sprite_t{fileName});
-            const pk::sprite_t& sprite = this->component->at<pk::sprite_t>(e);
-            this->component->at<pk::transform_t>(e).rect = {
-                0.0f,
-                0.0f,
-                static_cast<float>(sprite.texture.width),
-                static_cast<float>(sprite.texture.height)
-            };
-            return e;
-        }
-
-        bool checkCollision(const Rectangle& rect) const {
-            pk::ComponentArray<pk::collision_t>* cArray = this->component->getComponentArray<pk::collision_t>();
-            return std::any_of(
-                cArray->begin(),
-                cArray->end(),
-                [rect](const pk::collision_t& c) {
-                    return CheckCollisionRecs(c.rect, rect);
-                });
+        void unloadAllEntities() {
+            this->entity->clear();
+            this->component->clear();
+            this->system->clear();
+            this->entitiesToDestroy = std::queue<pk::entity_t>();
         }
 
         void clear() {
@@ -144,6 +113,7 @@ namespace pk {
     };
 
     inline pk::ECS gEcs{};
+
 
 }
 

@@ -1,19 +1,17 @@
 //
-// Created by vitor on 9/28/24.
+// Created by vitor on 9/30/24.
 //
 
 #ifndef ENTITY_H
 #define ENTITY_H
-#include <queue>
-#include "../util/constants.h"
-
+#include "../pokemon.h"
 
 namespace pk {
 
     class EntityManager {
 
     private:
-        std::queue<pk::entity_t> entities{};
+        std::queue<pk::entity_t> q{};
         std::size_t mSize{};
 
     public:
@@ -26,6 +24,5 @@ namespace pk {
     };
 
 }
-
 
 #endif //ENTITY_H

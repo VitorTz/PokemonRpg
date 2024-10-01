@@ -1,36 +1,33 @@
 //
-// Created by vitor on 9/28/24.
+// Created by vitor on 9/30/24.
 //
 
 #ifndef COMPONENT_H
 #define COMPONENT_H
-#include <array>
-#include <cassert>
-#include <unordered_map>
-#include <memory>
-#include "../util/constants.h"
-#include "../util/TypeID.h"
+#include "components.h"
+#include "../pokemon.h"
 
 
 namespace pk {
 
-    class IComponentArray {
+    class AbstractComponentArray {
 
     public:
-        virtual ~IComponentArray() = default;
+        virtual ~AbstractComponentArray() = default;
         virtual void erase(pk::entity_t e) = 0;
         virtual void clear() = 0;
         virtual std::size_t size() const = 0;
 
     };
 
+
     template<typename T>
-    class ComponentArray final : public pk::IComponentArray {
+    class ComponentArray final : public pk::AbstractComponentArray {
 
     private:
         std::array<T, pk::MAX_ENTITIES> arr{};
-        std::unordered_map<pk::entity_t, std::size_t> entityToIndex{};
-        std::unordered_map<std::size_t, pk::entity_t> indexToEntity{};
+        std::unordered_map<pk::entity_t, std::uint32_t> entityToIndex{};
+        std::unordered_map<std::uint32_t, pk::entity_t> indexToEntity{};
         std::size_t mSize{};
 
     public:
@@ -40,7 +37,6 @@ namespace pk {
         }
 
         void insert(const pk::entity_t e, T c) {
-            assert(this->entityToIndex.find(e) == this->entityToIndex.end());
             this->entityToIndex[e] = this->mSize;
             this->indexToEntity[this->mSize] = e;
             this->arr[this->mSize++] = c;
@@ -50,40 +46,22 @@ namespace pk {
             if (this->entityToIndex.find(e) == this->entityToIndex.end()) {
                 return;
             }
-
-            const std::size_t lastIndex = --this->mSize;
+            const std::size_t lastEntityIndex = --this->mSize;
             const std::size_t removedComponentIndex = this->entityToIndex[e];
-            const pk::entity_t lastEntity = this->indexToEntity[lastIndex];
+            const pk::entity_t lastEntity = this->indexToEntity[lastEntityIndex];
 
-            this->arr[removedComponentIndex] = this->arr[lastIndex];
+            this->arr[removedComponentIndex] = this->arr[lastEntityIndex];
 
             this->entityToIndex[lastEntity] = removedComponentIndex;
             this->indexToEntity[removedComponentIndex] = lastEntity;
 
             this->entityToIndex.erase(e);
-            this->indexToEntity.erase(lastIndex);
-        }
-
-        const std::array<T, pk::MAX_ENTITIES>& getArray() const {
-            return this->arr;
+            this->indexToEntity.erase(lastEntityIndex);
         }
 
         T& at(const pk::entity_t e) {
             assert(this->entityToIndex.find(e) != this->entityToIndex.end());
             return this->arr[this->entityToIndex[e]];
-        }
-
-        typename std::array<T, pk::MAX_ENTITIES>::iterator begin() {
-            return this->arr.begin();
-        }
-
-        typename std::array<T, pk::MAX_ENTITIES>::iterator end() {
-            return this->arr.begin() + this->mSize;
-        }
-
-        T& atIndex(const std::size_t index) {
-            assert(this->indexToEntity.find(index) != this->indexToEntity.end());
-            return this->arr[index];
         }
 
         void clear() override {
@@ -98,44 +76,34 @@ namespace pk {
 
     };
 
-
     class ComponentManager {
 
-
     private:
-        std::unordered_map<pk::component_t, std::unique_ptr<pk::IComponentArray>> componentMap{};
+        std::unordered_map<pk::component_t, std::unique_ptr<pk::AbstractComponentArray>> componentMap{};
 
     public:
-
-        template<typename T>
-        void registerComponent() {
-            const pk::component_t id = pk::gTypeId.get<T>();
-            assert(this->componentMap.find(id) == this->componentMap.end());
-            this->componentMap.emplace(id, std::make_unique<pk::ComponentArray<T>>());
+        ComponentManager() {
+            this->componentMap.emplace(pk::id::transform, std::make_unique<pk::ComponentArray<pk::transform_t>>());
+            this->componentMap.emplace(pk::id::sprite, std::make_unique<pk::ComponentArray<pk::sprite_t>>());
+            this->componentMap.emplace(pk::id::sprite_animation, std::make_unique<pk::ComponentArray<pk::sprite_animation_t>>());
+            this->componentMap.emplace(pk::id::movement, std::make_unique<pk::ComponentArray<pk::movement_t>>());
+            this->componentMap.emplace(pk::id::player, std::make_unique<pk::ComponentArray<pk::player_t>>());
+            assert(this->componentMap.size() == pk::NUM_COMPONENTS);
         }
 
-        template<typename T>
+        template<typename T, pk::component_t id>
         void insert(const pk::entity_t e, T c) {
-            const pk::component_t id = pk::gTypeId.get<T>();
             dynamic_cast<pk::ComponentArray<T>*>(this->componentMap[id].get())->insert(e, std::move(c));
         }
 
-        template<typename T>
+        template<typename T, pk::component_t id>
         void erase(const pk::entity_t e) {
-            const pk::component_t id = pk::gTypeId.get<T>();
-            dynamic_cast<pk::ComponentArray<T>*>(this->componentMap[id].get())->erase(e);
+            this->componentMap[id]->erase(e);
         }
 
-        template<typename T>
+        template<typename T, pk::component_t id>
         T& at(const pk::entity_t e) {
-            const pk::component_t id = pk::gTypeId.get<T>();
             return dynamic_cast<pk::ComponentArray<T>*>(this->componentMap[id].get())->at(e);
-        }
-
-        template<typename T>
-        pk::ComponentArray<T>* getComponentArray() const {
-            const pk::component_t id = pk::gTypeId.get<T>();
-            return dynamic_cast<pk::ComponentArray<T>*>(this->componentMap.at(id).get());
         }
 
         void entityDestroy(const pk::entity_t e) {
@@ -150,12 +118,13 @@ namespace pk {
             }
         }
 
-        std::size_t size() const {
+        std::size_t numComponentsArray() const {
             return this->componentMap.size();
         }
 
     };
 
 }
+
 
 #endif //COMPONENT_H

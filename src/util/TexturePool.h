@@ -1,24 +1,37 @@
 //
-// Created by vitor on 9/28/24.
+// Created by vitor on 9/30/24.
 //
 
 #ifndef TEXTUREPOOL_H
 #define TEXTUREPOOL_H
-#include <raylib.h>
-#include <unordered_map>
+#include "../pokemon.h"
 
 
 namespace pk {
+
+    enum AsyncLoadState {
+        Idle,
+        Running,
+        Completed
+    };
 
     class TexturePool {
 
     private:
         std::unordered_map<unsigned long, Texture2D> texturePool{};
+        std::vector<std::pair<std::string, Image>> loadQueue{};
+        pk::AsyncLoadState state{pk::Idle};
 
     public:
         TexturePool();
-        Texture2D get(const char* fileName);
-        void clear();
+
+        void startAsyncLoad();
+        void addToAsyncLoad(const char* fileName);
+        pk::AsyncLoadState getAsyncLoadState() const;
+        void endAsyncLoad();
+
+        Texture2D load(const char* fileName);
+        void unloadAll();
         std::size_t size() const;
 
     };

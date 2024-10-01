@@ -26,35 +26,33 @@ endif()
 
 add_executable (${PROJECT_NAME}
         src/main.cpp
-        src/util/constants.h
-        src/scene/Scene.h
-        src/scene/SceneID.h
-        src/scene/SceneManager.cpp
-        src/util/TexturePool.h
-        src/util/util.h
+        src/main.cpp
+        src/pokemon.h
         src/util/types.h
-        src/util/TexturePool.cpp
-        src/util/util.cpp
-        src/scene/TitleScreen.cpp
+        src/util/SceneId.h
+        src/scene/Scene.h
+        src/scene/SceneManager.cpp
         src/scene/LevelScene.cpp
-        src/scene/LoadingScreen.cpp
+        src/scene/TestScene1.cpp
+        src/scene/LoadingScene.cpp
+        src/scene/TitleScreen.cpp
+        src/util/util.h
+        src/util/util.cpp
+        src/util/TexturePool.h
+        src/util/TexturePool.cpp
+        src/ecs/components.h
         src/ecs/Entity.h
         src/ecs/Entity.cpp
-        src/ecs/System.h
-        src/util/TypeID.h
         src/ecs/Component.h
         src/ecs/ECS.h
-        src/ecs/components.h
-        src/ecs/Camera.h
-        src/ecs/Camera.cpp
-        src/ecs/TransformSystem.cpp
-        src/ecs/SpriteSystem.cpp
-        src/ecs/CollisionSystem.cpp
-        src/ecs/MovementSystem.cpp
-        src/ecs/PlayerSystem.cpp
-        src/ecs/SpriteAnimationSystem.cpp
+        src/util/Camera.h
+        src/util/Camera.cpp
+        src/ecs/System.h
+        src/ecs/System.cpp
         src/util/TiledMap.h
-        src/util/TiledMap.cpp)
+        src/util/TiledMapId.h
+        src/util/TiledMap.cpp
+)
 
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

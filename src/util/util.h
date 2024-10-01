@@ -1,29 +1,16 @@
 //
-// Created by vitor on 9/28/24.
+// Created by vitor on 9/30/24.
 //
 
 #ifndef UTIL_H
 #define UTIL_H
-#include <cassert>
-#include <filesystem>
-#include "types.h"
-#include <vector>
-#include <array>
+#include "../pokemon.h"
 
 
 namespace pk {
 
-
-    pk::hash_t hash(const char* s);
+    unsigned long hash(const char* s);
     int randint(int start, int end);
-
-    std::filesystem::path randomFile(const char* dir);
-
-    template<typename T>
-    const T& randomChoice(const std::vector<T>& v) {
-        assert(v.empty() == false);
-        return v[pk::randint(0, v.size())];
-    }
 
     template<typename T, std::size_t size>
     const T& randomChoice(const std::array<T, size>& arr) {
@@ -32,13 +19,17 @@ namespace pk {
     }
 
     template<typename T>
-    const T& randomChoice(T* arr, const int size) {
-        return *(arr + pk::randint(0, size));
+    const T& randomChoice(const std::vector<T>& arr) {
+        assert(arr.empty() == false);
+        return arr[pk::randint(0, arr.size())];
     }
 
-    void loadWorldMap(const char* fileName);
+    std::filesystem::path randomFile(const char* dir);
 
+    void printRect(const Rectangle& r);
+    void printVec(const Vector2& v);
 
 }
+
 
 #endif //UTIL_H

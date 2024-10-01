@@ -1,17 +1,14 @@
 //
-// Created by vitor on 9/28/24.
+// Created by vitor on 9/30/24.
 //
+
 #ifndef SCENE_H
 #define SCENE_H
-#include <array>
-#include <raylib.h>
-#include <memory>
-#include <iostream>
-#include "SceneID.h"
-#include "../util/constants.h"
+#include "../pokemon.h"
 
 
 namespace pk {
+
 
     class Scene {
 
@@ -22,16 +19,7 @@ namespace pk {
 
     };
 
-    class TitleScreen final : public pk::Scene {
-
-    private:
-        Texture2D background{};
-        Texture2D logo{};
-        Texture2D pressSpace{};
-        std::array<Vector2, 2> backgroundPos{
-            Vector2{0.0f, 0.0f},
-            Vector2{pk::SCREEN_W, 0.0f}
-        };
+    class TitleScreen : public pk::Scene {
 
     public:
         TitleScreen();
@@ -40,7 +28,7 @@ namespace pk {
 
     };
 
-    class LevelScene final : public pk::Scene {
+    class LevelScene : public pk::Scene {
 
     public:
         LevelScene();
@@ -49,10 +37,19 @@ namespace pk {
 
     };
 
-    class LoadingScreen final : public pk::Scene {
+    class TestScene1 : public pk::Scene {
 
     public:
-        LoadingScreen();
+        TestScene1();
+        void update(float dt) override;
+        void draw() override;
+
+    };
+
+    class LoadingScene : public pk::Scene {
+
+    public:
+        LoadingScene();
         void update(float dt) override;
         void draw() override;
 
@@ -62,12 +59,11 @@ namespace pk {
 
     private:
         std::unique_ptr<pk::Scene> scene{};
-        std::unique_ptr<pk::LoadingScreen> loadingScreen{};
+        std::unique_ptr<pk::LoadingScene> loadingScene{};
 
     private:
-        pk::SceneId sceneId{pk::MAIN_SCENE};
         bool shouldChangeScene{};
-        bool isChangingScene{};
+        pk::SceneId sceneId{pk::MAIN_SCENE};
 
     private:
         void loadNextScene();

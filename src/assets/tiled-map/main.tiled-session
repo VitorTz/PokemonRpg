@@ -28,11 +28,11 @@
             "scaleInEditor": 1
         },
         "world.tmx": {
-            "scale": 0.125,
+            "scale": 3,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 3308,
-                "y": 1368
+                "x": 215.5,
+                "y": 183.66666666666666
             }
         },
         "world.tsx": {
