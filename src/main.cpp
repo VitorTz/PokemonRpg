@@ -19,7 +19,7 @@ int main() {
         EndDrawing();
     }
 
-    pk::gTexturePool.unloadAll();
+    pk::gTexturePool.clear();
     CloseWindow();
     return 0;
 }

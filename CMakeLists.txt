@@ -49,9 +49,15 @@ add_executable (${PROJECT_NAME}
         src/util/Camera.cpp
         src/ecs/System.h
         src/ecs/System.cpp
-        src/util/TiledMap.h
         src/util/TiledMapId.h
-        src/util/TiledMap.cpp
+        src/ecs/SystemTransform.cpp
+        src/ecs/SystemSprite.cpp
+        src/ecs/SystemSpriteAnimation.cpp
+        src/ecs/player.h
+        src/ecs/SystemPlayer.cpp
+        src/util/WaterType.h
+        src/ecs/EcsManager.h
+        src/ecs/ECS.cpp
 )
 
 

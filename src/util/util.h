@@ -10,6 +10,7 @@
 namespace pk {
 
     unsigned long hash(const char* s);
+
     int randint(int start, int end);
 
     template<typename T, std::size_t size>
@@ -26,8 +27,11 @@ namespace pk {
 
     std::filesystem::path randomFile(const char* dir);
 
+    double euclideanDistance(int p1, int p2, int q1, int q2);
+
     void printRect(const Rectangle& r);
     void printVec(const Vector2& v);
+    
 
 }
 

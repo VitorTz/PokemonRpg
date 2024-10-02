@@ -19,19 +19,11 @@ namespace pk {
 
     private:
         std::unordered_map<unsigned long, Texture2D> texturePool{};
-        std::vector<std::pair<std::string, Image>> loadQueue{};
-        pk::AsyncLoadState state{pk::Idle};
 
     public:
         TexturePool();
-
-        void startAsyncLoad();
-        void addToAsyncLoad(const char* fileName);
-        pk::AsyncLoadState getAsyncLoadState() const;
-        void endAsyncLoad();
-
         Texture2D load(const char* fileName);
-        void unloadAll();
+        void clear();
         std::size_t size() const;
 
     };

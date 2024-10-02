@@ -5,32 +5,44 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 #include "../pokemon.h"
-
+#include "../ecs/System.h"
 
 namespace pk {
 
     class Camera {
 
     private:
-        Camera2D camera{
-            .offset = Vector2{pk::SCREEN_CENTERX, pk::SCREEN_CENTERY},
-            .target = Vector2{pk::SCREEN_CENTERX, pk::SCREEN_CENTERY},
-            .rotation = 0.0f,
-            .zoom = 2.0f
-        };
+        Camera2D camera{};
+        std::map<pk::zindex_t, std::vector<std::pair<float, pk::entity_t>>> zIndexToEntities{};
+        std::array<bool, pk::MAX_ENTITIES> onCameraEntities{};
+        std::size_t mSize{};
+        const Vector2 mapSize;
+        const int ecsInstance;
 
     public:
-        void reset();
-        void addZoom(float delta);
-        void setZoom(float z);
+        Camera(pk::TiledMapId mapId, int ecsInstance);
+        void move(float x, float y);
+
         void setTarget(float x, float y);
-        void beginDrawing();
-        void endDrawing();
-        void handleMouseWheelInput();
+        void setTarget(const Vector2& v);
+        void beginDrawing() const;
+        void endDrawing() const;
+
+        void insert(pk::entity_t e);
+        void erase(pk::entity_t e);
+
+        void draw(pk::SystemManager* system);
+        void handleUserInput();
+        void clear();
+        std::size_t size() const;
+
+        void setZoom(float z);
+        void addZoom(float delta);
+        float getZoom() const;
+
+        void reset();
 
     };
-
-    inline pk::Camera gCamera{};
 
 }
 

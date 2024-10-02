@@ -4,7 +4,7 @@
 #include "Entity.h"
 
 
-pk::EntityManager::EntityManager() {
+pk::EntityManager::EntityManager(const pk::TiledMapId mapId) : pk::EcsManager(mapId) {
     for (pk::entity_t e = 0; e < pk::MAX_ENTITIES; e++) {
         this->q.push(e);
     }
@@ -38,8 +38,3 @@ void pk::EntityManager::clear() {
 std::size_t pk::EntityManager::size() const {
     return this->mSize;
 }
-
-
-
-
-

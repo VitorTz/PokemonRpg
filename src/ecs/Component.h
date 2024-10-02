@@ -6,6 +6,7 @@
 #define COMPONENT_H
 #include "components.h"
 #include "../pokemon.h"
+#include "EcsManager.h"
 
 
 namespace pk {
@@ -76,18 +77,16 @@ namespace pk {
 
     };
 
-    class ComponentManager {
+    class ComponentManager final : public pk::EcsManager {
 
     private:
         std::unordered_map<pk::component_t, std::unique_ptr<pk::AbstractComponentArray>> componentMap{};
 
     public:
-        ComponentManager() {
+        explicit ComponentManager(const pk::TiledMapId mapId) : pk::EcsManager(mapId) {
             this->componentMap.emplace(pk::id::transform, std::make_unique<pk::ComponentArray<pk::transform_t>>());
             this->componentMap.emplace(pk::id::sprite, std::make_unique<pk::ComponentArray<pk::sprite_t>>());
             this->componentMap.emplace(pk::id::sprite_animation, std::make_unique<pk::ComponentArray<pk::sprite_animation_t>>());
-            this->componentMap.emplace(pk::id::movement, std::make_unique<pk::ComponentArray<pk::movement_t>>());
-            this->componentMap.emplace(pk::id::player, std::make_unique<pk::ComponentArray<pk::player_t>>());
             assert(this->componentMap.size() == pk::NUM_COMPONENTS);
         }
 
@@ -106,20 +105,16 @@ namespace pk {
             return dynamic_cast<pk::ComponentArray<T>*>(this->componentMap[id].get())->at(e);
         }
 
-        void entityDestroy(const pk::entity_t e) {
+        void entityDestroy(const pk::entity_t e) override {
             for (auto& pair : this->componentMap) {
                 pair.second->erase(e);
             }
         }
 
-        void clear() {
+        void clear() override {
             for (auto& pair : this->componentMap) {
                 pair.second->clear();
             }
-        }
-
-        std::size_t numComponentsArray() const {
-            return this->componentMap.size();
         }
 
     };

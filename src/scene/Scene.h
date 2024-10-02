@@ -12,6 +12,9 @@ namespace pk {
 
     class Scene {
 
+    protected:
+        std::unordered_map<pk::TiledMapId, int> ecsInstance{};
+
     public:
         virtual ~Scene() = default;
         virtual void update(float dt) = 0;
@@ -19,7 +22,7 @@ namespace pk {
 
     };
 
-    class TitleScreen : public pk::Scene {
+    class TitleScreen final : public pk::Scene {
 
     public:
         TitleScreen();
@@ -28,7 +31,7 @@ namespace pk {
 
     };
 
-    class LevelScene : public pk::Scene {
+    class LevelScene final : public pk::Scene {
 
     public:
         LevelScene();
@@ -37,7 +40,7 @@ namespace pk {
 
     };
 
-    class TestScene1 : public pk::Scene {
+    class TestScene1 final : public pk::Scene {
 
     public:
         TestScene1();
@@ -46,7 +49,7 @@ namespace pk {
 
     };
 
-    class LoadingScene : public pk::Scene {
+    class LoadingScene final : public pk::Scene {
 
     public:
         LoadingScene();
@@ -60,12 +63,8 @@ namespace pk {
     private:
         std::unique_ptr<pk::Scene> scene{};
         std::unique_ptr<pk::LoadingScene> loadingScene{};
-
-    private:
         bool shouldChangeScene{};
         pk::SceneId sceneId{pk::MAIN_SCENE};
-
-    private:
         void loadNextScene();
 
     public:

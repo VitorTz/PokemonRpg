@@ -18,7 +18,7 @@ unsigned long pk::hash(const char *s) {
 }
 
 
-inline int pk::randint(const int start, const int end) {
+int pk::randint(const int start, const int end) {
     return start + intDist(rng) % (end - start);
 }
 
@@ -36,13 +36,20 @@ std::filesystem::path pk::randomFile(const char *dir) {
 }
 
 
+double pk::euclideanDistance(
+    const int p1, const int p2,
+    const int q1, const int q2
+) {
+   return std::sqrt(std::pow(p1 - q1, 2) + std::pow(p2 - q2, 2));
+}
 
-inline void pk::printVec(const Vector2 &v) {
+
+void pk::printVec(const Vector2 &v) {
     std::printf("Vec(%.2f, %.2f)\n", v.x, v.y);
 }
 
 
-inline void pk::printRect(const Rectangle &r) {
+void pk::printRect(const Rectangle &r) {
     std::printf("Rect(%.2f, %.2f, %.2f, %.2f)\n", r.x, r.y, r.width, r.height);
 }
 

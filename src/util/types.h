@@ -14,8 +14,9 @@ namespace pk {
     typedef std::uint8_t zindex_t;
 
     typedef struct tiled_map {
-        int width{};
-        int height{};
+        const char* worldImage{};
+        const char* txtFile{};
+        Vector2 worldSize{};
         int rows{};
         int cols{};
     } tiled_map_t;

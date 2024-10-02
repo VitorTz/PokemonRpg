@@ -16,12 +16,11 @@ namespace pk {
         constexpr pk::component_t transform = 0;
         constexpr pk::component_t sprite = 1;
         constexpr pk::component_t sprite_animation = 2;
-        constexpr pk::component_t movement = 3;
-        constexpr pk::component_t player = 4;
+        constexpr pk::component_t player = 3;
 
     }
 
-    constexpr std::size_t NUM_COMPONENTS{5};
+    constexpr std::size_t NUM_COMPONENTS{3};
 
     typedef struct transform {
         Vector2 pos{};
@@ -60,18 +59,10 @@ namespace pk {
         ) : sprite_animation(animation.fileName, animation.rows, animation.cols, animation.speed) { }
     } sprite_animation_t;
 
-    typedef struct movement {
-        char direction[2]{'i', 'd'};
-        int tile{};
-        int indexNextTile{};
-        std::vector<int> tilePath{};
-    } movement_t;
+    typedef struct water {
+        pk::WaterType type{};
+    } water_t;
 
-    typedef struct player {
-        pk::entity_t shadowEntity{};
-        player() = default;
-        explicit player(const pk::entity_t shadowEntity) : shadowEntity(shadowEntity) { }
-    } player_t;
 
 }
 
