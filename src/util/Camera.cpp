@@ -6,12 +6,11 @@
 
 
 pk::Camera::Camera(
-    const pk::TiledMapId mapId,
-    const int ecsInstance
-) : mapSize(pk::TILED_MAP[mapId].worldSize),
-    ecsInstance(ecsInstance) {
+    const pk::TiledMapId mapId
+    ) : mapSize(pk::TILED_MAP[mapId].worldSize),
+        mapId(mapId) {
     this->reset();
-    for (pk::zindex_t z = pk::CAMERA_MIN_ZINDEX; z <= pk::CAMERA_MAX_ZINDEX; z++) {
+    for (pk::zindex_t z = pk::ZINDEX_MIN; z <= pk::ZINDEX_MAX; z++) {
         this->zIndexToEntities[z].reserve(pk::MAX_ENTITIES);
     }
 }
@@ -22,7 +21,7 @@ void pk::Camera::reset() {
         .offset = Vector2{pk::SCREEN_CENTERX, pk::SCREEN_CENTERY},
         .target = Vector2{pk::SCREEN_CENTERX, pk::SCREEN_CENTERY},
         .rotation = 0.0f,
-        .zoom = 2.0f
+        .zoom = 1.0f
     };
 }
 
@@ -38,7 +37,7 @@ void pk::Camera::setZoom(const float z) {
 
 
 void pk::Camera::draw(pk::SystemManager *system) {
-    pk::ECS* ecs = pk::ECS::getInstance(this->ecsInstance);
+    pk::ECS* ecs = pk::ECS::getInstance(this->mapId);
     this->beginDrawing();
         for (auto& p : this->zIndexToEntities) {
             for (std::pair<float, pk::entity_t>& pair : p.second) {
@@ -53,9 +52,9 @@ void pk::Camera::draw(pk::SystemManager *system) {
 
 
 void pk::Camera::insert(const pk::entity_t e) {
-    pk::ECS* ecs = pk::ECS::getInstance(this->ecsInstance);
+    pk::ECS* ecs = pk::ECS::getInstance(this->mapId);
     const pk::zindex_t z = ecs->getTransform(e).zindex;
-    assert(z >= pk::CAMERA_MIN_ZINDEX && pk::CAMERA_MAX_ZINDEX);
+    assert(z >= pk::ZINDEX_MIN && pk::ZINDEX_MAX);
     if (this->onCameraEntities[e] == false) {
         this->mSize++;
         this->onCameraEntities[e] = true;
@@ -65,7 +64,7 @@ void pk::Camera::insert(const pk::entity_t e) {
 
 
 void pk::Camera::erase(const pk::entity_t e) {
-    pk::ECS* ecs = pk::ECS::getInstance(this->ecsInstance);
+    pk::ECS* ecs = pk::ECS::getInstance(this->mapId);
     if (this->onCameraEntities[e] == true) {
         this->onCameraEntities[e] = false;
         const pk::zindex_t z = ecs->getTransform(e).zindex;
@@ -92,19 +91,18 @@ void pk::Camera::endDrawing() const {
 
 
 void pk::Camera::setTarget(const float x, const float y) {
-    this->camera.target.x = std::clamp(x, pk::SCREEN_CENTERX / 2.0f, this->mapSize.x - pk::SCREEN_CENTERX / 2.0f);
-    this->camera.target.y = std::clamp(y, pk::SCREEN_CENTERY / 2.0f, this->mapSize.y - pk::SCREEN_CENTERY / 2.0f);
+    this->camera.target.x = std::clamp(x, pk::SCREEN_CENTERX, this->mapSize.x - pk::SCREEN_CENTERX);
+    this->camera.target.y = std::clamp(y, pk::SCREEN_CENTERY, this->mapSize.y - pk::SCREEN_CENTERY);
 }
 
+
 void pk::Camera::setTarget(const Vector2 &v) {
-    this->camera.target.x = std::clamp(v.x, pk::SCREEN_CENTERX / 2.0f, this->mapSize.x - pk::SCREEN_CENTERX / 2.0f);
-    this->camera.target.y = std::clamp(v.y, pk::SCREEN_CENTERY / 2.0f,  this->mapSize.y - pk::SCREEN_CENTERY / 2.0f);
+    this->setTarget(v.x, v.y);
 }
 
 
 void pk::Camera::move(const float x, const float y) {
-    this->camera.target.x = std::clamp( this->camera.target.x + x, pk::SCREEN_CENTERX / 2.0f, this->mapSize.x - pk::SCREEN_CENTERX / 2.0f);
-    this->camera.target.y = std::clamp(this->camera.target.y + y, pk::SCREEN_CENTERY / 2.0f,  this->mapSize.y - pk::SCREEN_CENTERY / 2.0f);
+    this->setTarget(this->camera.target.x + x, this->camera.target.y + y);
 }
 
 

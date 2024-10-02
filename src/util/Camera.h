@@ -17,10 +17,10 @@ namespace pk {
         std::array<bool, pk::MAX_ENTITIES> onCameraEntities{};
         std::size_t mSize{};
         const Vector2 mapSize;
-        const int ecsInstance;
+        const pk::TiledMapId mapId;
 
     public:
-        Camera(pk::TiledMapId mapId, int ecsInstance);
+        explicit Camera(pk::TiledMapId mapId);
         void move(float x, float y);
 
         void setTarget(float x, float y);

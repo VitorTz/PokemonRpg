@@ -5,7 +5,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 #include <cstdint>
-
+#include <raylib.h>
 
 namespace pk {
 
@@ -14,11 +14,10 @@ namespace pk {
     typedef std::uint8_t zindex_t;
 
     typedef struct tiled_map {
-        const char* worldImage{};
-        const char* txtFile{};
-        Vector2 worldSize{};
+        const char* mapName{};
         int rows{};
         int cols{};
+        Vector2 worldSize{};
     } tiled_map_t;
 
     typedef struct sprite_animation_source {

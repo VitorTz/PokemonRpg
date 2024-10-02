@@ -7,7 +7,7 @@
 
 int main() {
     InitWindow(pk::SCREEN_W, pk::SCREEN_H, pk::WINDOW_TITLE);
-    SetTargetFPS(60);
+    SetTargetFPS(pk::TARGET_FPS);
 
     pk::gSceneManager.init();
 

@@ -10,7 +10,7 @@ class MapId(Enum):
 
 
 MAPS = {
-    MapId.World: ("../src/assets/tiled-map/world.tmx", "../src/assets/tiled-map/world/map.txt")
+    MapId.World: ("../src/assets/data/maps/world.tmx", "../src/assets/data/maps/world.txt")
 }
 
 
@@ -21,12 +21,10 @@ def main() -> None:
 
     tiled_map: TiledMap = load_pygame(MAPS[map_id][0])
     output_file = MAPS[map_id][1]
-
-    with open(output_file, "w+") as file:        
-        file.write(f"{tiled_map.width * 16} {tiled_map.height * 16} {tiled_map.width} {tiled_map.height}\n")
-
+    invalid_names = ("Objects", "Transition")
+    with open(output_file, "w+") as file:
         for i in tiled_map:
-            if (isinstance(i, TiledObjectGroup)):
+            if (isinstance(i, TiledObjectGroup)) and i.name not in invalid_names:
                 i: TiledObjectGroup
                 file.write(f"{i.name}\n")
                 file.write(f"{len(i)}\n")

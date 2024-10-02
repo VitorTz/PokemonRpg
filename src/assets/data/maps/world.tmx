@@ -183,7 +183,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="3" name="Entities">
+ <objectgroup id="3" name="Entities" visible="0">
   <object id="12" name="Player" x="4223.94" y="3661.26">
    <properties>
     <property name="direction" value="down"/>
@@ -2455,7 +2455,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="2" name="Objects">
+ <objectgroup id="2" name="Objects" visible="0">
   <object id="1" gid="211" x="4352" y="3776" width="320" height="320"/>
   <object id="2" gid="226" x="3455.33" y="3783.33" width="128" height="192"/>
   <object id="3" gid="226" x="3264" y="3712" width="128" height="192"/>
@@ -2723,7 +2723,7 @@
   <object id="1079" gid="227" x="4678" y="2170" width="128" height="192"/>
   <object id="1292" x="1090" y="4184.75" width="20" height="20.5"/>
  </objectgroup>
- <objectgroup id="14" name="Collision">
+ <objectgroup id="14" name="Collision" visible="0">
   <object id="1153" x="1452" y="2700" width="43.5" height="36.5"/>
   <object id="1154" x="1324.5" y="2638.5" width="40" height="34.5"/>
   <object id="1155" x="1723.77" y="2712.42" width="34.5909" height="32.1364"/>
@@ -3271,7 +3271,7 @@
   <object id="1743" x="3459.5" y="2114" width="118" height="118.5"/>
   <object id="1744" x="3399.5" y="2185" width="50.9997" height="54"/>
  </objectgroup>
- <objectgroup id="5" name="Transition">
+ <objectgroup id="5" name="Transition" visible="0">
   <object id="17" x="4421.09" y="3770.75" width="54.6667" height="3.83333">
    <properties>
     <property name="pos" value="world"/>

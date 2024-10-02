@@ -9,7 +9,7 @@ std::unordered_map<pk::TiledMapId, std::unique_ptr<pk::ECS>> pk::ECS::ecsInstanc
 
 void pk::ECS::createInstance(const pk::TiledMapId mapId) {
     assert(pk::ECS::ecsInstanceMap.find(mapId) == pk::ECS::ecsInstanceMap.end());
-    pk::ECS::ecsInstanceMap.emplace(mapId, std::make_unique<pk::ECS>(mapId));
+    pk::ECS::ecsInstanceMap.emplace(mapId, std::unique_ptr<pk::ECS>(new pk::ECS(mapId)));
     pk::ECS::ecsInstanceMap[mapId]->init();
 }
 

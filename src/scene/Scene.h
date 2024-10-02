@@ -12,9 +12,6 @@ namespace pk {
 
     class Scene {
 
-    protected:
-        std::unordered_map<pk::TiledMapId, int> ecsInstance{};
-
     public:
         virtual ~Scene() = default;
         virtual void update(float dt) = 0;

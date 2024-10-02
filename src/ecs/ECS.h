@@ -41,8 +41,8 @@ namespace pk {
         pk::player_info_t playerInfo{};
 
         void loadPlayer() {
-            this->playerInfo.playerEntity = this->entityCreate(pk::PLAYER_ZINDEX, true);
-            this->playerInfo.shadowEntity = this->entityCreate(pk::PLAYER_SHADOW_ZINDEX, GRAPHICS_PATH "other/shadow.png");
+            this->playerInfo.playerEntity = this->entityCreate(pk::ZINDEX_WORLD, true);
+            this->playerInfo.shadowEntity = this->entityCreate(pk::ZINDEX_SHADOW, GRAPHICS_PATH "other/shadow.png");
             this->addComponent<pk::sprite_animation_t, id::sprite_animation>(
                 this->playerInfo.playerEntity,
                 pk::sprite_animation_t{pk::PLAYER_SPRITE_ANIMATION}
@@ -50,25 +50,30 @@ namespace pk {
             pk::transform_t& t = this->getTransform(this->playerInfo.playerEntity);
             t.pos = pk::PLAYER_START_POS[this->mapId];
             t.size = Vector2{pk::PLAYER_SIZE, pk::PLAYER_SIZE};
-            this->playerInfo.collisionRect = Rectangle{
-                t.pos.x + t.size.x / 2.0f - pk::TILE_SIZE / 2.0f,
-                t.pos.y + t.size.y - pk::TILE_SIZE,
-                pk::TILE_SIZE,
-                pk::TILE_SIZE
-            };
+            this->playerInfo.collisionRect = pk::PLAYER_COLLISION_RECT;
+            this->playerInfo.collisionRect.x = t.pos.x + t.size.x / 2.0f - this->playerInfo.collisionRect.width / 2.0f;
+            this->playerInfo.collisionRect.y = t.pos.y + t.size.y - this->playerInfo.collisionRect.height;
         }
 
         void loadTiledMap() {
             const pk::tiled_map_t& tiledMap = pk::TILED_MAP[this->mapId];
-
             std::string line{};
-            std::ifstream file(tiledMap.txtFile);
-            assert(file.is_open());
-
             int n, i;
             float x, y, width, height;
-            this->createSprite(0, tiledMap.worldImage);
 
+            // Load Terrain Image
+            line = ASSETS_PATH "data/maps/";
+            line += tiledMap.mapName;
+            line += ".png";
+            this->createSprite(pk::ZINDEX_TERRAIN, line.c_str());
+
+            // Load Tiles
+            line = ASSETS_PATH "data/maps/";
+            line += tiledMap.mapName;
+            line += ".txt";
+            std::ifstream file(line);
+            assert(file.is_open());
+            std::cout << "1\n";
             while (file >> line) {
                 file >> n;
                 if (line == "Collision") {
@@ -79,11 +84,18 @@ namespace pk {
                     continue;
                 }
                 if (line == "Entities") {
-
+                    for (i = 0; i < n; i++) {
+                        file >> x >> y >> width >> height;
+                    }
+                    continue;
+                }
+                if (line == "Monsters") {
+                    for (i = 0; i < n; i++) {
+                        file >> x >> y >> width >> height;
+                    }
                 }
 
             }
-
             file.close();
         }
 
@@ -93,7 +105,7 @@ namespace pk {
             this->entity = std::make_unique<pk::EntityManager>(this->mapId);
             this->component = std::make_unique<pk::ComponentManager>(this->mapId);
             this->system = std::make_unique<pk::SystemManager>(this->mapId);
-            this->camera = std::make_unique<pk::Camera>(mapId, this->mapId);
+            this->camera = std::make_unique<pk::Camera>(this->mapId);
             this->staticCollisions.reserve(2048);
             this->loadTiledMap();
             this->loadPlayer();
@@ -101,10 +113,10 @@ namespace pk {
 
     public:
 
-        pk::entity_t entityCreate(const pk::zindex_t zindex, const bool isOnCamera) {
+        pk::entity_t entityCreate(const pk::zindex_t zindex, const bool submitToCamera) {
             const pk::entity_t e = this->entity->entityCreate();
             this->component->insert<pk::transform_t, pk::id::transform>(e, pk::transform_t{zindex});
-            if (isOnCamera) this->camera->insert(e);
+            if (submitToCamera) this->camera->insert(e);
             return e;
         }
 
@@ -112,8 +124,7 @@ namespace pk {
             const pk::entity_t e = this->entityCreate(zindex, true);
             this->addComponent<pk::sprite_t, pk::id::sprite>(e, pk::sprite_t{fileName});
             const pk::sprite_t& sprite = this->component->at<pk::sprite_t, pk::id::sprite>(e);
-            pk::transform_t& transform = this->getTransform(e);
-            transform.size = Vector2{
+            this->getTransform(e).size =  Vector2{
                 static_cast<float>(sprite.texture.width),
                 static_cast<float>(sprite.texture.height)
             };
@@ -174,6 +185,15 @@ namespace pk {
 
         void draw() const {
             this->camera->draw(this->system.get());
+            if (pk::DEBUG_MODE) {
+                DrawFPS(15, 10);
+                this->camera->beginDrawing();
+                for (const Rectangle& rect : this->staticCollisions) {
+                    DrawRectangleLinesEx(rect, 2.0f, BLUE);
+                }
+                DrawRectangleLinesEx(this->playerInfo.collisionRect, 2.0f, RED);
+                this->camera->endDrawing();
+            }
         }
 
         void unloadAllEntities() {
